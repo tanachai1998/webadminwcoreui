@@ -1,0 +1,274 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  Validators,
+  FormGroup,
+  NgForm,
+} from "@angular/forms";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+
+
+
+
+import {FeedDataService} from '../../../services/feed-data.service'
+import { AddDataService } from '../../../services/add-data.service';
+@Component({
+  selector: 'app-types',
+  templateUrl: './types.component.html',
+  styleUrls: ['./types.component.css']
+})
+export class TypesComponent implements OnInit {
+  @ViewChild ('topicModal') public topicModal:ModalDirective;
+  @ViewChild ('editModal') public editModal:ModalDirective;
+  @ViewChild("confirmModal") public confirmModal: ModalDirective;
+
+  year:number;
+  i: number;
+  InfoId:any
+  regulationType:regList[];
+  regulationForFilter:regList[];
+  filterYear:any;
+  addDataForm:FormGroup;
+  status: any;
+  state: any;
+  category_id: any ;
+  isSubmitted: boolean;
+  year_list:any;
+  loading =  false;
+  filterVal:any;
+  tmp: number;
+  tmpName: string;
+  res: any;
+
+  constructor(
+    protected apiGetRegulation: FeedDataService,
+    protected apiEditData: AddDataService,
+    private fb:FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+
+
+  ) {
+    // this.apiGetRegulation.getRegulationType(1,1).subscribe((response) => {
+    //   this.regulationType = response;
+    //   this.regulationForFilter =response;
+    //   localStorage.setItem("regulation_id", JSON.stringify(this.regulationType.id));
+    //   console.log('reg',this.regulationType);
+    //   console.log('reg2',this.regulationForFilter);
+
+    //   // alert(response);
+    //   this.loading = true;
+    //   // console.log("response", response);
+    //   // console.log(value);
+    //   // alert(JSON.stringify(response));
+    //   // this.FilterYear(this.filterVal);
+
+
+
+
+
+    // });
+  }
+
+  ngOnInit(): void {
+    // alert('type');
+    this.getLocalStorage();
+    this.addForm();
+
+  }
+
+
+  getLocalStorage() {
+    this.InfoId = localStorage.getItem("sectorId");
+
+    this.route.params.subscribe(params=>{
+      this.category_id = params['id']
+    })
+    console.log('type category id =>',this.category_id);
+    console.log('sector_id=>',this.InfoId);
+
+
+
+
+    // this.InfoId1 = localStorage.getItem("id");
+    // this.userInfo(this.InfoId1);
+    this.getRegulationType(this.category_id,this.InfoId);
+    // this.getYearList(this.InfoId);
+  }
+
+  getRegulationType(value,sector_id) {
+
+    this.apiGetRegulation.getRegulationType(value,sector_id).subscribe((response) => {
+      this.regulationType = response;
+      this.regulationForFilter =response;
+      // localStorage.setItem("regulation_id", JSON.stringify(this.regulationType.id));
+      console.log('reg',this.regulationType);
+      console.log('reg2',this.regulationForFilter);
+
+      // alert(response);
+      this.loading = true;
+      // console.log("response", response);
+      // console.log(value);
+      // alert(JSON.stringify(response));
+      // this.FilterYear(this.filterVal);
+
+
+      // this.join();
+
+
+    });
+  }
+
+  // join(){
+  //   forkJoin(this.regulationType,this.year_list).subscribe(results => {
+  //     console.log('res',results);
+  //     this.res = results;
+  //   });
+  // }
+
+  FilterYear(filterVal: any) {
+    console.log('reg3',this.regulationType);
+    console.log('reg4',this.regulationForFilter);
+    // console.log('reg4 year',this.regulationForFilter.type);
+    if (filterVal == "0"){
+      this.regulationType = this.regulationForFilter;
+    }
+    else{
+      // this.i++;
+      // for (let i =0; i<this.regulationType.length; i++){
+        // console.log('i = ',i)
+        this.regulationType = this.regulationForFilter.filter((item) => item.year.year == filterVal);
+        console.log('filter value 11= >',this.filterVal );
+
+        console.log('filter value = >',this.regulationType );
+      // }
+
+    }
+    filterVal = 0;
+
+}
+
+
+  getYearList(value) {
+    this.apiGetRegulation.getYearList(value).subscribe((response) => {
+      this.year_list = response;
+      // localStorage.setItem("regulation_id", JSON.stringify(this.year_list.id));
+
+      // alert(response);
+      // console.log("response", response);
+      // console.log(value);
+      // alert(JSON.stringify(response));
+    });
+  }
+
+
+  addForm() {
+    // alert("test")
+    this.addDataForm = this.fb.group({
+      type: new FormControl("", [Validators.required]),
+      sector_id: new FormControl(this.InfoId),
+      category_id:new FormControl(this.category_id),
+      year: new FormControl("", [Validators.required]),
+
+    });
+
+    // console.log('value');
+  }
+  // addData(value) {
+  //   alert(JSON.stringify(value));
+  //   this.addDataForm.reset();
+  //   this.apiEditData.addCategory(value).subscribe((response) => {
+  //     // console.log(response);
+  //     // console.log(value);
+  //     // return response;
+  //     this.status = response;
+  //     this.state = this.status.success;
+  //     console.log("status = ", this.status.success);
+  //     if (this.state == true) {
+  //       // console.log("SSstatus = ", this.state);
+
+  //       this.topicModal.hide();
+  //     }
+  //     // alert(JSON.stringify(this.user.message));
+  //   });
+  //   // this.onRoute();
+  // }
+
+  get f() {
+    return this.addDataForm.controls;
+  }
+  onSubmit() {
+    this.isSubmitted = true;
+
+    // stop here if form is invalid
+    if (this.addDataForm.invalid) {
+      // alert('xxxxx')
+      return;
+    } else if (this.addDataForm.valid) {
+      // alert('yyyyyyy')
+      // alert(
+      //   "SUCCESS!! :-)\n\n" + JSON.stringify(this.addUserForm.value, null, 4)
+      // );
+      // this.addData(this.addDataForm.value);
+      // this.onRoute();
+    }
+    // display form values on success
+  }
+
+
+  toDataInfo(regualtion_id) {
+    // alert("xxx");
+    console.log('regualtion_type =>',regualtion_id)
+    // this.router.navigate(["data"],{queryParams: { regualtionType:regualtion_type , categoryID: this.category_id }});
+    this.router.navigate(["data"],{queryParams: { regualtionType:regualtion_id}});
+
+  }
+
+  confirm(regulation_id,regulation_name){
+    this.confirmModal.show();
+    this.tmp = regulation_id;
+    this.tmpName = regulation_name;
+
+  }
+
+
+  onUpdate(){
+
+  }
+  onDelete(){
+    console.log('tmp => ', this.tmp)
+
+    this.apiEditData.removeType(this.tmp).subscribe((response)=>{
+    });
+    this.confirmModal.hide();
+    this.getRegulationType(this.category_id,this.InfoId);
+
+
+  }
+  selectedYear(year_id){
+    alert('selected');
+    console.log('year id = ', year_id);
+  }
+}
+
+ interface regList {
+  category_regulation_id: number,
+  created_at: string,
+  id: number,
+  sector_id: number,
+  type: string,
+  updated_at: string,
+  year_id: number,
+  year: Year
+
+}
+ interface Year{
+  created_at: string,
+  id: number,
+  sector_id: number,
+  updated_at: string,
+  year: number,
+}

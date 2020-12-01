@@ -1,0 +1,323 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-6"><i class="fa fa-align-justify"></i> ปี</div>
+
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class = "pull-right">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="addFormModal(addData)"
+              >
+                เพิ่มปี
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <table  *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable>
+          <thead>
+            <tr>
+              <th style="width: 50%; text-align: center;">
+                  ปี
+              </th>
+              <th style="width: 50%; text-align: center;">
+                <i class="fa fa-cog fa-lg "></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let year of year_list">
+              <td style="width: 50%; text-align: center;">
+                {{ year.year }}
+
+              </td>
+              <td style="width: 50%; text-align: center;">
+
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    (click)="EditFormModal(EditData,year)"
+                  >
+
+                  <i class="fa fa-pencil-square-o fa-lg "></i>
+                  </button>
+                  <button
+                  type="button"
+                  class="btn btn-danger"
+                    (click)="confirm(year.id,year.year)"
+                  >
+                  <i class="fa fa-trash-o fa-lg "></i
+                    >
+                  </button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--/.col-->
+
+  <!-- <div
+    bsModal
+    #topicModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มปี</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="topicModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+          <div class="card">
+            <div class="card-header">
+              <strong> {{ sectorInfo }} </strong>
+            </div>
+            <div class="card-body">
+              <form
+                [formGroup]="addDataForm"
+                (ngSubmit)="onSubmit(addDataForm.value)"
+                enctype="multipart/form-data"
+                class="form-horizontal"
+              >
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input"
+                    >เพิ่มปี</label
+                  >
+                  <div class="col-md-9">
+                    <input
+                      type="text"
+                      name="text-input"
+                      class="form-control"
+                      placeholder="ปี"
+                      formControlName="year"
+                      [ngClass]="{ 'is-invalid': isSubmitted && f.year.errors }"
+                    />
+                    <span class="help-block">This is a help text</span>
+                    <div
+                      *ngIf="isSubmitted && f.year.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.year.errors.required">
+                        กรุณากรอก ปี
+                      </div>
+                      <div *ngIf="f.year.errors.validType">
+                        ปีที่กรอกมีอยู่แล้ว
+                      </div>
+
+                      <div *ngIf="addDataForm.controls.year.hasError('validYear')">ปีที่กรอกมีอยู่แล้ว</div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      (click)="topicModal.hide()"
+                    >
+                      ยกเลิก
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      บันทึก
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        /.modal-content
+      </div>
+      /.modal-dialog/
+    </div>
+    /.modal
+  </div> -->
+</div>
+
+<ng-template #addData>
+  <form [formGroup]="addDataForm" (ngSubmit)="onSubmit(addDataForm.value)">
+    <div class="" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="title">
+            <i class="fa fa-plus"></i>
+          </h6>
+          <button (click)="modelRef.hide()" type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--/.modal-header-->
+        <div class="modal-body">
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input"
+              >เพิ่มปี <br>(เช่น 2563)</label
+            >
+            <div class="col-md-9">
+              <input
+                type="text"
+                name="year"
+                class="form-control"
+                placeholder="ปี"
+                formControlName="year"
+                [ngClass]="{ 'is-invalid': isSubmitted && f.year.errors }"
+              />
+              <!-- <span class="help-block">This is a help text</span> -->
+              <div
+                *ngIf="isSubmitted && f.year.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.year.errors.required">
+                  กรุณากรอก ปี
+                </div>
+                <div *ngIf="f.year.errors.validType">
+                  ปีที่กรอกมีอยู่แล้ว
+                </div>
+                <div *ngIf="f.year.errors.minLength">
+                  ไอแดนนน
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div class="modal-footer p-2">
+          <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> บันทึก
+          </button>
+          <button (click)="modelRef.hide()" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+            <i class="fa fa-ban"></i> ปิด
+          </button>
+        </div>
+        <!--/.modal-footer-->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </form>
+  <!-- /.modal-dialog -->
+</ng-template>
+
+
+
+
+
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+        <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>คุณต้องการลบปี {{tmpName}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">ยกเลิก</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete()" >ยืนยัน</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<ng-template #EditData>
+  <form [formGroup]="editForm" (ngSubmit)="EditYear(editForm.value)">
+    <div class="" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="title">
+            <i class="fa fa-plus"></i> แก้ไข
+          </h6>
+          <button (click)="modelRef.hide()" type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--/.modal-header-->
+        <div class="modal-body">
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input"
+              >แก้ไขปี</label
+            >
+            <div class="col-md-9">
+              <input
+                type="text"
+                name="year"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': editSubmitted && g.year.errors }"
+
+                formControlName="year"
+
+              />
+
+              <div
+                *ngIf="editSubmitted && g.year.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="g.year.errors.required">
+                  กรุณากรอก ปี
+                </div>
+
+                <div *ngIf="g.year.errors.validType">
+                  ไอแดนนน
+                </div>
+            </div>
+
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <!--/.modal-body-->
+        <div class="modal-footer p-2">
+          <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> บันทึก
+          </button>
+          <button (click)="modelRef.hide()" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+            <i class="fa fa-ban"></i> ปิด
+          </button>
+        </div>
+        <!--/.modal-footer-->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </form>
+  <!-- /.modal-dialog -->
+</ng-template>

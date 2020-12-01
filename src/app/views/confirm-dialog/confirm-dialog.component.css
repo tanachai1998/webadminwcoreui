@@ -1,0 +1,43 @@
+.pull-right {
+  text-align: right;
+}
+.padding {
+  padding-right: 10px;
+  padding-top: 5px;
+}
+.div-body {
+  padding-top: 5px;
+}
+.pdt-b-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.btnColor {
+  color: #20a8d8;
+}
+.mgSearch {
+  margin: 10px;
+}
+.pdr-0 {
+  padding-right: 0px;
+}
+.rdobtn1 {
+  margin-right: 5px;
+}
+.rdobtn {
+  margin-left: 20px;
+  margin-right: 5px;
+}
+.btnMargin {
+  margin: 10px;
+  /* width: 90px;
+  height: 45px; */
+}
+.delete-icon {
+  font-size: 80px;
+  color: #f8bb86;
+  border-color: #facea8;
+}
+.cursor {
+  cursor: pointer;
+}

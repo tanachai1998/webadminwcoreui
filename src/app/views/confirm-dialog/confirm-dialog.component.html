@@ -1,0 +1,44 @@
+<!-- <div class="modal-header">
+	<h4 class="modal-title pull-left">{{title}}</h4>
+	<button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	{{message}}
+</div>
+<div class="modal-footer">
+	<ng-container *ngIf="options.length">
+		<button *ngFor="let option of options" type="button" class="btn btn-default"
+			(click)="respond(option)">{{option}}</button>
+	</ng-container>
+</div> -->
+
+<!-- <ng-template #deleteMediaModal> -->
+
+<div class=" ">
+	<div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+		<!-- <div class="modal-body text-center" style="background-color: white; border-radius: 5px;"> -->
+		<i [className]="getClassIcon(icon)"></i>
+		<p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+			{{title}}
+		</p>
+		<p style="font-size: medium; color: #545454;">
+			{{message}}
+		</p>
+		<!-- <div class="col-12 d-flex justify-content-around"> -->
+		<button (click)="respond(option.name)" *ngFor="let option of options"
+			[className]="getClassButton(option.classed)">
+			<!-- <i class="fa fa-save"></i>  -->
+			{{option.name}}
+		</button>
+		<!-- </div> -->
+		<!-- <div *ngFor="let option of options" type="button"> -->
+
+		<!-- </div> -->
+
+
+	</div>
+
+
+</div>

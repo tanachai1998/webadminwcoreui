@@ -1,0 +1,402 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-6"><i class="fa fa-align-justify"></i> รูปโครงสร้าง</div>
+
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-10">
+              <!-- <div class = "pull-right">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="topicModal.show()"
+              >
+                เพิ่มรูปโครงสร้าง
+              </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- <form [formGroup]="addHomeStatus" (ngSubmit)="changeHomeStatus()" > -->
+
+        <table  *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable>
+          <thead>
+            <tr>
+              <!-- <h>Username</th> -->
+              <!-- <th>Date registered</th> -->
+              <th style="width:10%;">
+                  #
+              </th>
+              <!-- <th class="topic" style="width:15%;">
+                <div>
+                  ลำดับ
+                </div>
+              </th> -->
+              <!-- <th class="topic" style="width: 30%;">
+                <div>
+                  รายละเอียดข่าว
+                </div>
+              </th> -->
+              <th class="topic" style="width: 45%; ">
+                  รูป
+              </th>
+              <!-- <th class="topic" style="width: 12%; ">
+                <div>
+                  แสดงผลหน้าฝ่าย
+                </div>
+              </th> -->
+
+              <th class="topic" style="width: 45%;">
+                <i class="fa fa-cog fa-lg "></i>
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of structureImg; let i = index">
+              <td>
+                {{ i+1}}
+              </td>
+              <!-- <td>
+                {{ name.topic }}
+              </td> -->
+              <!-- <td>
+                <p class ="detail">
+                  {{ name.detail  }}
+                </p>
+              </td> -->
+              <td class="topic">
+                <button type = "button"
+                class =" btn btn-primary "
+                (click)="getImageInfo(item.id)">
+
+                      <i class="fa fa-search"></i
+                    >
+              </button>
+
+                <!-- <img [src] = "'assets/img/' + name.image" style="width: 200px; height: 200px;"> -->
+              </td>
+              <!-- <td class="topic">
+              <input
+                formControlName="homeStatus"
+                type = "checkbox"
+                class =" checkbox"
+                [value]="name.id"
+                (change)="onCheckChange($event)">
+
+              </td> -->
+              <td class="topic">
+                  <!-- <button
+                    type="button"
+                    class="btn btn-primary "
+                    (click)="toNewInfo(name.id)"
+                  >
+                  <i class="fa fa-newspaper-o"></i
+                    >
+                  </button> -->
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    (click)="editModal.show()"
+                  >
+                  <i class="fa fa-pencil-square-o fa-lg "></i>
+                  </button>
+                  <!-- <button
+                    type="button"
+                    class="btn btn-danger "
+                    (click)="confirmModal.show()"
+                  >
+                  <i class="fa fa-trash-o fa-lg "></i
+                    >
+                  </button> -->
+              </td>
+
+              <!-- <td>{{category.type}}</td>
+            <td>{{category.type}}</td>
+            <td>{{category.type}}</td>
+
+            <td>{{category.type}}</td>
+            <td>{{category.type}}</td> -->
+            </tr>
+          </tbody>
+
+        </table>
+        <!-- <div class="pull-right">
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          >
+          <i class="fa fa-save fa-lg "></i
+            >
+        </button>
+      </div> -->
+
+      <!-- </form> -->
+
+      </div>
+    </div>
+  </div>
+  <!--/.col-->
+
+  <div
+    bsModal
+    #topicModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มรูปโครงสร้าง</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="topicModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <p>One fine body&hellip;</p> -->
+          <div class="card">
+            <!-- <div class="card-header">
+              <strong> {{ sectorInfo }} </strong>
+            </div> -->
+            <div class="card-body">
+              <!-- <form
+                [formGroup]="addDataForm"
+                (ngSubmit)="onSubmit()"
+                enctype="multipart/form-data"
+                class="form-horizontal"
+              > -->
+                <!-- <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input"
+                    >ห้วข้อข่าว</label
+                  >
+                  <div class="col-md-9">
+                    <input
+                      type="text"
+                      name="text-input"
+                      class="form-control"
+                      placeholder="หัวข้อข่าว"
+                      formControlName="topic"
+                      [ngClass]="{ 'is-invalid': isSubmitted && f.topic.errors }"
+                    />
+                    <span class="help-block">This is a help text</span>
+                    <div
+                      *ngIf="isSubmitted && f.topic.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.topic.errors.required">
+                        กรุณากรอก หัวข้อข่าว
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input"
+                    >รายละเอียดข่าว</label
+                  >
+                  <div class="col-md-9">
+
+                    <textarea
+                      id="textarea-input"
+                      name="textarea-input"
+                      rows="9"
+                      class="form-control"
+                      placeholder="รายละเอียดข่าว.."
+                      formControlName="detail"
+                      [ngClass]="{ 'is-invalid': isSubmitted && f.detail.errors }"
+                    >
+                    </textarea>
+
+                    <span class="help-block">This is a help text</span>
+                    <div
+                      *ngIf="isSubmitted && f.detail.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.detail.errors.required">
+                        กรุณากรอก รายละเอียดข่าว
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="file-multiple-input"
+                    >ไฟล์รูป</label
+                  >
+                  <!-- <div class="col-md-9">
+                    <input
+                      type="file"
+                      id="file-multiple-input"
+                      name="file-multiple-input"
+                      (change)="onSelectFile($event)"
+                      multiple
+                    />
+                  </div> -->
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      (click)="topicModal.hide()"
+                    >
+                      ยกเลิก
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      บันทึก
+                    </button>
+                  </div>
+                </div>
+              <!-- </form> -->
+            </div>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog/ -->
+    </div>
+    <!-- /.modal -->
+  </div>
+</div>
+
+
+
+<div
+  bsModal
+  #viewImageModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">รูป</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="viewImageModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <p>One fine body&hellip;</p> -->
+        <div class="card">
+          <!-- <div class="card-header">
+            <strong> {{ sectorInfo }} </strong>
+          </div> -->
+          <div class="card-body" *ngFor="let image of structureImg" >
+
+            <img [src] = "image.imageFile" class="img-fluid"  >
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog/ -->
+  </div>
+  <!-- /.modal -->
+</div>
+
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+        <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>คุณต้องการลบข่าว</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">ยกเลิก</button>
+        <!-- <button type="button" class="btn btn-danger" (click)="onDelete()" >ยืนยัน</button> -->
+        <!-- <button type="button" class="btn btn-danger" (click)="onDelete(name.id)" >ยืนยัน</button> -->
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<div bsModal
+#detailModal="bs-modal"
+class="modal fade"
+tabindex="-1"
+role="dialog"
+aria-labelledby="myModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">ข้อมูลข่าว</h4>
+        <button type="button" class="close" (click)="detailModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <p>One fine body&hellip;</p> -->
+        <div class="card">
+          <!-- <div class="card-header">
+            <strong> {{ sectorInfo }} </strong>
+          </div> -->
+          <div class="card-body" *ngFor="let news of structureImg" >
+
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input"
+                >ห้วข้อข่าว</label
+              >
+              <div class="col-md-9">
+                {{news.topic}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input"
+                >รายละเอียดข่าว</label
+              >
+              <div class="col-md-9">
+                {{news.detail}}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="file-multiple-input"
+                >รูป</label
+              >
+            <img [src] = " news.image">
+
+            </div>
+
+
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,404 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-6"><i class="fa fa-align-justify"></i> ข้อมูล</div>
+
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="pull-right">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  (click)="dataModal.show()"
+                >
+                  เพิ่มข้อมูล
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [dtOptions]="dtOptions" -->
+    </div>
+    <div class="card-body">
+      <table
+        *ngIf="loading"
+        class="table table-striped table-hover table-responsive-lg"
+        datatable
+      >
+        <thead>
+          <tr>
+            <th style="width: 8%; text-align: center">หัวข้อ</th>
+            <th style="width: 15%; text-align: center">รายละเอียด</th>
+
+            <th style="width: 14%; text-align: center">ไฟล์</th>
+
+            <th style="width: 8%; text-align: center">
+              <i class="fa fa-cog fa-lg"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="loading">
+          <tr *ngFor="let data of fileInfo">
+            <td>{{ data.topic }}</td>
+
+            <td>{{ data.subTopic }}</td>
+            <td>
+              <a
+                class="badge badge-success mr-1"
+                href=" javascript:void(0)"
+                *ngFor="let file of data.files; let i = index"
+                (click)="openFile(file.file_name)"
+              >
+                {{ i + 1 }}.
+                {{ file.file_name }}
+              </a>
+            </td>
+            <td>
+              <div style="text-align: center">
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  (click)="EditFormModal(EditData, data)"
+                >
+                  <i class="fa fa-pencil-square-o fa-lg"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="confirm(data.id, data.topic)"
+                >
+                  <i class="fa fa-trash-o fa-lg"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    bsModal
+    #dataModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มข้อมูล</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="dataModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <p>One fine body&hellip;</p> -->
+          <div class="card">
+            <div class="card-header"><strong>ชื่อฝ่าย</strong></div>
+            <div class="card-body">
+              <form [formGroup]="addDataForm" (ngSubmit)="upload()">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input"
+                    >หัวข้อ</label
+                  >
+                  <div class="col-md-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="หัวข้อ"
+                      formControlName="topic"
+                      [ngClass]="{
+                        'is-invalid': isSubmitted && f.topic.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="isSubmitted && f.topic.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.topic.errors.required">
+                        กรุณากรอก หัวข้อ
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input"
+                    >รายละเอียด</label
+                  >
+                  <div class="col-md-9">
+                    <textarea
+                      id="textarea-input"
+                      name="textarea-input"
+                      rows="9"
+                      class="form-control"
+                      placeholder="รายละเอียด.."
+                      formControlName="subTopic"
+                      [ngClass]="{
+                        'is-invalid': isSubmitted && f.subTopic.errors
+                      }"
+                    >
+                    </textarea>
+
+                    <!-- <span class="help-block">This is a help text</span> -->
+                    <div
+                      *ngIf="isSubmitted && f.subTopic.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.subTopic.errors.required">
+                        กรุณากรอก รายละเอียด
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    class="col-md-3 col-form-label"
+                    for="file-multiple-input"
+                    >ไฟล์</label
+                  >
+                  <div class="col-md-9">
+                    <input
+                      type="file"
+                      id="file-multiple-input"
+                      name="file-multiple-input"
+                      (change)="onSelectFile($event)"
+                      multiple
+                    />
+                  </div>
+                </div>
+                <!-- <div class="modal-footer"> -->
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="dataModal.hide()"
+                >
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <!-- </div> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!--/.modal-->
+  <ng-template #EditData>
+    <form [formGroup]="editForm" (ngSubmit)="EditDataInfo(editForm.value)">
+      <div class="" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="title">
+              <i class="fa fa-pencil fa-lg"></i> แก้ไขข้อมูล
+            </h6>
+            <button
+              (click)="modelRefEdit.hide()"
+              type="button"
+              class="close text-danger"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--/.modal-header-->
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input"
+                >แก้ไขหัวข้อ</label
+              >
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  name="type"
+                  class="form-control"
+                  formControlName="topic"
+                  [ngClass]="{ 'is-invalid': isSubmitted && g.topic.errors }"
+                />
+
+                <div
+                  *ngIf="isSubmitted && g.topic.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="g.type.errors.required">กรุณากรอก หัวข้อ</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input"
+                >แก้ไขรายละเอียด</label
+              >
+              <div class="col-md-9">
+                <textarea
+                  id="textarea-input"
+                  name="textarea-input"
+                  rows="9"
+                  class="form-control"
+                  formControlName="subTopic"
+                  [ngClass]="{ 'is-invalid': isSubmitted && g.subTopic.errors }"
+                >
+                </textarea>
+
+                <div
+                  *ngIf="isSubmitted && g.subTopic.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="g.subTopic.errors.required">
+                    กรุณากรอก รายละเอียด
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="file-multiple-input"
+                >ไฟล์</label
+              >
+              <div class="col-md-9">
+                <input
+                  type="file"
+                  id="file-multiple-input"
+                  name="file-multiple-input"
+                  (change)="onSelectFile($event)"
+                  multiple
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input"
+                >ไฟล์อัพโหลดก่อนหน้า</label
+              >
+              <div class="col-md-9">
+                <div *ngFor="let file of fileOfTop; let i = index">
+                  <a
+                    class="badge badge-success mr-1"
+                    href=" javascript:void(0)"
+                    (click)="openFile(file.file_name)"
+                  >
+                    {{ i + 1 }}.
+                    {{ file.file_name }}
+                  </a>
+                  <button
+                    (click)="ConfirmFormModal(confirmDel, file)"
+                    type="button"
+                    class="close text-danger"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/.modal-body-->
+          <div class="modal-footer p-2">
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="fa fa-save"></i> บันทึก
+            </button>
+            <button
+              (click)="modelRefEdit.hide()"
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-dismiss="modal"
+            >
+              <i class="fa fa-ban"></i> ปิด
+            </button>
+          </div>
+          <!--/.modal-footer-->
+        </div>
+        <!-- /.modal-content -->
+      </div>
+    </form>
+    <!-- /.modal-dialog -->
+  </ng-template>
+  <div
+    bsModal
+    #confirmModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="confirmModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>คุณต้องการลบข้อมูล {{ tmpName }} ?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="confirmModal.hide()"
+          >
+            ยกเลิก
+          </button>
+          <button type="button" class="btn btn-danger" (click)="onDelete()">
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <ng-template #confirmDel>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modelRefDel.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>คุณต้องการลบข้อมูล {{ tmpVal_name }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modelRefDel.hide()"
+        >
+          ยกเลิก
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onDeleteFiles()">
+          ยืนยัน
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

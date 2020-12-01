@@ -1,0 +1,532 @@
+<!-- <div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      DataTable
+      <a href="https://coreui.io/pro/angular/" class="badge badge-danger ml-2"
+        >CoreUI Pro Component</a
+      >
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <button
+            type="button"
+            class="btn btn-secondary mr-1"
+            data-toggle="modal"
+            (click)="topicModal.show()"
+          >
+            เพิ่มข้อมูล
+          </button>
+        </div>
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-search"></i></span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="filterQuery"
+              placeholder="Search by name"
+            />
+          </div>
+        </div>
+      </div>
+      class="table table-striped table-hover table-responsive-lg"
+
+      <table
+        class="table table-bordered table-striped table-md"
+        [mfData]="data | dataFilter: filterQuery"
+        #mf="mfDataTable"
+        [mfRowsOnPage]="10"
+      >
+        <thead>
+          <tr>
+            <th style="width: 10%;">
+              <mfDefaultSorter by="name" #sortName>
+                หมวดหมู่
+                <span
+                  *ngIf="sortName.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortName.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 10%;">
+              <mfDefaultSorter by="name" #sortName>
+                ประเภท
+                <span
+                  *ngIf="sortName.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortName.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 7%;">
+              <mfDefaultSorter by="name" #sortName>
+                ปี
+                <span
+                  *ngIf="sortName.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortName.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 15%;">
+              <mfDefaultSorter by="email" #sortEmail>
+                ชื่อหัวข้อ
+                <span
+                  *ngIf="sortEmail.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortEmail.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 15%;">
+              <mfDefaultSorter by="age" #sortAge>
+                รายละเอียดย่อย
+                <span
+                  *ngIf="sortAge.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortAge.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 14%;">
+              <mfDefaultSorter by="city" #sortCity>
+                ไฟล์
+                <span
+                  *ngIf="sortCity.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortCity.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 5%;">
+              <mfDefaultSorter by="regDate" #sortRegDate>
+                แสดงในหน้าฝ่าย
+                <span
+                  *ngIf="sortRegDate.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortRegDate.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+            <th style="width: 15%;">
+              <mfDefaultSorter by="regDate" #sortRegDate>
+                --
+                <span
+                  *ngIf="sortRegDate.isSortedByMeAsc"
+                  class="cui-arrow-top"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  *ngIf="sortRegDate.isSortedByMeDesc"
+                  class="cui-arrow-bottom"
+                  aria-hidden="true"
+                ></span>
+              </mfDefaultSorter>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ 0 }}</td>
+
+            <td>{{ 1 }}</td>
+            <td>{{ 2 }}</td>
+            <td class="text-left">{{ 3 }}</td>
+            <td>{{ 4 }}</td>
+            <td>{{ 5 }}</td>
+            <td>
+              <div class="form-check form-check-inline mr-1">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="inline-checkbox1"
+                  value="option1"
+                />
+                <label class="form-check-label" for="inline-checkbox1"
+                  >แสดง</label
+                >
+              </div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-secondary mr-1">
+                แก้ไข
+              </button>
+              <button type="button" class="btn btn-secondary mr-1">
+                ลบ
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7">
+              <mfBootstrapPaginator
+                [rowsOnPageSet]="[5, 10, 15]"
+              ></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+        <li class="page-item active">
+          <a class="page-link" href="#">1</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#"><</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">>></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #topicModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">เพิ่มข้อมูล</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="topicModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+        <div class="card">
+          <div class="card-header"><strong>ชื่อฝ่าย</strong></div>
+          <div class="card-body">
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              class="form-horizontal"
+            >
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >เลือกหมวดหมู่</label
+                >
+                <div class="col-md-7">
+                  <select
+                    id="select1"
+                    name="select1"
+                    class="form-control form-control-md"
+                  >
+                    <option value="">หมวดหมู่</option>
+                    <option
+                      *ngFor="let item of regulationType"
+                      value="{{ item.id }}"
+                      >{{ item.type }}</option
+                    >
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" (click)="addExtensionBtn(1)">
+                    เพิ่มหมวดหมู่
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group row" *ngIf="isExtend">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >เพิ่มหมวดหมู่</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="text-input"
+                    name="text-input"
+                    class="form-control"
+                    placeholder="หมวดหมู่"
+                  />
+                  <span class="help-block">This is a help text</span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dataModal.hide()"
+        >
+          ยกเลิก
+        </button>
+        <button type="button" class="btn btn-primary" (click)="hideAndSeek(0)">
+          ถัดไป
+        </button>
+      </div>
+    </div>
+    /.modal-content
+  </div>
+  /.modal-dialog
+</div>
+/.modal
+
+<div
+  bsModal
+  #subTopicModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">เพิ่มข้อมูล</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="subTopicModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+        <div class="card">
+          <div class="card-header"><strong>ชื่อฝ่าย</strong></div>
+          <div class="card-body">
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              class="form-horizontal"
+            >
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >เลือกประเภท</label
+                >
+                <div class="col-md-7">
+                  <select
+                    id="select1"
+                    name="select1"
+                    class="form-control form-control-md"
+                  >
+                    <option value="">ประเภท</option>
+                    <option
+                      *ngFor="let item of regulationType"
+                      value="{{ item.id }}"
+                      >{{ item.type }}</option
+                    >
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" (click)="addExtensionBtn(2)">
+                    เพิ่มประเภท
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group row" *ngIf="isExtend2">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >เพิ่มประเภท
+                </label>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="text-input"
+                    name="text-input"
+                    class="form-control"
+                    placeholder="ประเภท"
+                  />
+                  <span class="help-block">This is a help text</span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="subTopicModal.hide()"
+        >
+          ยกเลิก
+        </button>
+        <button type="button" class="btn btn-primary" (click)="hideAndSeek(1)">
+          ถัดไป
+        </button>
+      </div>
+    </div>
+    /.modal-content
+  </div>
+  /.modal-dialog
+</div>
+/.modal
+
+<div
+  bsModal
+  #dataModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">เพิ่มข้อมูล</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="dataModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+        <div class="card">
+          <div class="card-header"><strong>ชื่อฝ่าย</strong></div>
+          <div class="card-body">
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              class="form-horizontal"
+            >
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >หัวข้อ</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="text-input"
+                    name="text-input"
+                    class="form-control"
+                    placeholder="หัวข้อ"
+                  />
+                  <span class="help-block">This is a help text</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >รายละเอียด</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="text-input"
+                    name="text-input"
+                    class="form-control"
+                    placeholder="รายละเอียด"
+                  />
+                  <span class="help-block">This is a help text</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input"
+                  >ปี</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="text-input"
+                    name="text-input"
+                    class="form-control"
+                    placeholder="ปี"
+                  />
+                  <span class="help-block">* กรุณากรอกเพียงตัวเลข เช่น พ.ศ. 2563 กรุณากรอก 2563 </span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="file-multiple-input"
+                  >ไฟล์</label
+                >
+                <div class="col-md-9">
+                  <input
+                    type="file"
+                    id="file-multiple-input"
+                    name="file-multiple-input"
+                    multiple
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dataModal.hide()"
+        >
+          ยกเลิก
+        </button>
+        <button type="button" class="btn btn-primary" (click)="hideAndSeek()">
+          บันทึก
+        </button>
+      </div>
+    </div>
+    /.modal-content
+  </div>
+  /.modal-dialog
+</div>
+/.modal -->
