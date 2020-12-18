@@ -480,15 +480,15 @@ export const navItems: INavData[] = [
     //   text: 'PRO'
     // }
   },
-  {
-    name: "รูปส่วนงาน",
-    url: "/image",
-    icon: "icon-map",
-    // badge: {
-    //   variant: 'danger',
-    //   text: 'PRO'
-    // }
-  },
+  // {
+  //   name: "รูปส่วนงาน",
+  //   url: "/image",
+  //   icon: "icon-map",
+  //   // badge: {
+  //   //   variant: 'danger',
+  //   //   text: 'PRO'
+  //   // }
+  // },
   // {
   //   name: "ออกจากระบบ"ม
   //   url:

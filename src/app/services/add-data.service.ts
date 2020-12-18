@@ -101,18 +101,37 @@ export class AddDataService {
     );
   }
 
-  addNews(value){
-    return this.http.post( "http://localhost/TOTFinancial/public/api/addNews",value);
+  addNews(value, files: File){
+   //alert(files);
+    // const formData = {
+    //   sector_id: value.sector_id,
+    //   topic: value.topic,
+    //   detail: value.detail,
+    //   image: files[0],
+    //   homeStatus: value.homeStatus
+    // }
+  
+    const formData = new FormData();
+    formData.append('sector_id',value.sector_id);
+    formData.append('topic',value.topic);
+    formData.append('detail',value.detail);
+    formData.append("image", files[0]);
+
+    console.log("55555555",formData)
+
+    return this.http.post( "http://localhost/TOTFinancial/public/api/addNews",formData);
   }
 
   editNews(value){
     const formData = {
+      id: value.id,
       topic: value.topic,
-
       detail: value.detail,
+      
+      
 
     };
-
+    console.log("editnews",formData)
     return this.http.post( "http://localhost/TOTFinancial/public/api/editNews",formData);
 
   }
@@ -192,7 +211,6 @@ editFile(value){
   }
 
 
-
   removeYear(year_id){
     return this.http.get<any>('http://localhost/TOTFinancial/public/api/removeYear/'+ year_id);
 
@@ -203,6 +221,10 @@ editFile(value){
   }
   removeFiles(file_id){
     return this.http.get<any>('http://localhost/TOTFinancial/public/api/removeFiles/'+ file_id);
+  }
+
+  removeNews(news_id){
+    return this.http.get<any>('http://localhost/TOTFinancial/public/api/removeNews/'+ news_id);
   }
 
 }

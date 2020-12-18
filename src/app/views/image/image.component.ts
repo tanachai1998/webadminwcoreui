@@ -102,7 +102,8 @@ export class ImageComponent implements OnInit {
   addData(value) {
     alert(JSON.stringify(value));
     this.addDataForm.reset();
-    this.apiImageData.addNews(value).subscribe((response) => {
+    //<!-- grape edit 20201208 -->
+    this.apiImageData.addNews(value,null).subscribe((response) => {
       console.log('response',response);
       // console.log(value);
 
