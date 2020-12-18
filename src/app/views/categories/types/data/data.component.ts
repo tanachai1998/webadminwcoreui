@@ -154,7 +154,6 @@ export class DataComponent implements OnInit {
   }
 
 
-
   upload() {
     alert('in upload')
     const formData = new FormData();

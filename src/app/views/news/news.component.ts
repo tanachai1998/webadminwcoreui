@@ -45,10 +45,10 @@ export class NewsComponent implements OnInit {
   isSubmitted: boolean;
   fileToUpload: File = null;
   loading = false;
-  files = [];
-  tmp: any;
+  files: any = [];
+  tmp: number;
   tmpName: any;
-
+  del: any;
   onChangeStatus: any;
   constructor(
     private apiGetData: FeedDataService,
@@ -56,6 +56,7 @@ export class NewsComponent implements OnInit {
     private apiAddData: AddDataService,
     private router: Router,
     private modalService: BsModalService
+
 
   ) {}
 
@@ -102,8 +103,8 @@ export class NewsComponent implements OnInit {
   }
   addData(value) {
     alert(JSON.stringify(value));
-    this.addDataForm.reset();
-    this.apiAddData.addNews(value).subscribe((response) => {
+    // this.addDataForm.reset();
+    this.apiAddData.addNews(value,this.files).subscribe((response) => {
       console.log("response", response);
       this.status = response;
       this.state = this.status.success;
@@ -111,10 +112,9 @@ export class NewsComponent implements OnInit {
       if (this.state == true) {
         console.log("SSstatus = ", this.state);
 
-        this.topicModal.hide();
-        this.getNews(this.InfoId);
       }
     });
+    this.topicModal.hide();
   }
 
   get f() {
@@ -122,7 +122,6 @@ export class NewsComponent implements OnInit {
   }
   onSubmit() {
     this.isSubmitted = true;
-
     // stop here if form is invalid
     if (this.addDataForm.invalid) {
       return;
@@ -130,6 +129,7 @@ export class NewsComponent implements OnInit {
 
       this.addData(this.addDataForm.value);
     }
+    this.getNews(this.InfoId);
     // display form values on success
   }
   toNewInfo(news_id) {
@@ -157,33 +157,40 @@ export class NewsComponent implements OnInit {
     this.files = event.target.files;
   }
 
-  upload() {
-    this.isSubmitted = true;
+  // upload() {
+  //   alert("alert")
+  //   this.isSubmitted = true;
 
-    // stop here if form is invalid
-    if (this.addDataForm.invalid) {
-      // alert('xxxxx')
-      return;
-    } else if (this.addDataForm.valid) {
-      const formData = new FormData();
-      for (var i = 0; i < this.files.length; i++) {
-        formData.append(`filename[${i}]`, this.files[i]);
-      }
-      console.log("this.files", this.files);
+  //   // stop here if form is invalid
+  //   if (this.addDataForm.invalid) {
+  //      alert('xxxxx')
+  //     return;
+  //   } else if (this.addDataForm.valid) {
+  //     const formData = new FormData();
+  //     for (var i = 0; i < this.files.length; i++) {
+  //       formData.append(`filename[${i}]`, this.files[i]);
+  //     }
+  //     console.log("this.files", this.files);
 
-      formData.append("sector_id", this.addDataForm.value.sector_id);
-      formData.append("topic", this.addDataForm.value.topic);
-      formData.append("detail", this.addDataForm.value.detail);
-      this.apiAddData.addNews(formData).subscribe((result) => {
-        console.log(result);
-      });
-    }
-  }
+  //     formData.append("sector_id", this.addDataForm.value.sector_id);
+  //     formData.append("topic", this.addDataForm.value.topic);
+  //     formData.append("detail", this.addDataForm.value.detail);
+  //     this.apiAddData.addNews(formData, this.files).subscribe((result) => {
+  //       console.log("ddsdsdsdssdds",result);
+  //     });
+  //   }
+  // }
+    
 
   confirm(regulation_id, regulation_name) {
     this.confirmModal.show();
     this.tmp = regulation_id;
     this.tmpName = regulation_name;
+  }
+  
+  Deletemodal(id){
+    this.confirmModal.show();
+    this.del = id;
   }
 
   onCheckChange(value) {
@@ -206,11 +213,12 @@ export class NewsComponent implements OnInit {
   }
 
   onUpdate() {}
+  
   onDelete() {
-    console.log("tmp => ", this.tmp);
-
-    this.apiAddData.removeType(this.tmp).subscribe((response) => {});
     this.confirmModal.hide();
+    this.apiAddData.removeNews(this.del).subscribe((response) => {
+      this.getLocalStorage()
+    })
   }
   EditFormModal(createmodal: TemplateRef<any>, value) {
     this.modelRef = this.modalService.show(
@@ -244,12 +252,13 @@ export class NewsComponent implements OnInit {
     this.modelRef.hide();
     this.apiAddData.editNews(value).subscribe((response) => {
       console.log("response", response);
+      this.getLocalStorage()
     });
-    setTimeout(() => {
-      this.getNews(this.InfoId);
+    // setTimeout(() => {
+    //   this.getNews(this.InfoId);
 
 
-    }, 1000);
+    // }, 1000);
 
   }
 
