@@ -19,7 +19,22 @@ export class ValidateAdminService {
       formData
     );
   }
-
+  getbyemail(data) {
+    const formData = {
+      email: data
+    };
+    // console.log("datadata",data);
+    return this.http.post<any>(
+      "http://localhost/TOTFinancial/public/api/postemailtoget",
+      formData
+    );
+  }
+  getsector(dataa){
+    const from ={
+      sector: dataa
+    };
+    // return this.http.post<any>(,);
+  }
   // validateUser() {
   //   return this.http.get('http://localhost/TOTFinancial/public/api/validUser');
   // }

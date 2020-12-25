@@ -12,6 +12,10 @@ import {
 
 import { FeedDataService } from "../../services/feed-data.service";
 import { AddDataService } from "../../services/add-data.service";
+import { stringify } from "@angular/compiler/src/util";
+import { SectorListService } from "../../services/sector-list.service";
+import { ValidateAdminService } from "../../services/validate-admin.service";
+import { AuthService } from "../../shared/services/auth.service";
 
 @Component({
   selector: "app-news",
@@ -50,26 +54,92 @@ export class NewsComponent implements OnInit {
   tmpName: any;
   del: any;
   onChangeStatus: any;
+  sectorId: object = [];
+  Form: FormGroup;
+  userdata: any = [];
+  resultnews:any =[];
+  email
+  admin
   constructor(
     private apiGetData: FeedDataService,
     private fb: FormBuilder,
     private apiAddData: AddDataService,
     private router: Router,
-    private modalService: BsModalService
-
-
-  ) {}
+    private modalService: BsModalService,
+    private sectorlist: SectorListService,
+    private validate: ValidateAdminService,
+    private auth: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    this.getLocalStorage();
+    this.email=this.auth.getUser().email;
+    this.getLocalStorage(this.email);
     this.addForm();
+    this.getNews
+    // this.getSector();
+    // this.getadmin;
   }
-
-  getLocalStorage() {
-
-    this.InfoId = 1;
-    this.getNews(this.InfoId);
-  }
+ 
+   getLocalStorage(data) {
+    this.validate.getbyemail(data).subscribe(result =>{
+      this.admin = result
+      if (this.admin.sector_id == 6) {
+        this.apiGetData.getNews(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 6
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+      else if (this.admin.sector_id == 5) {
+        this.apiGetData.getCategory(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 5
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+      else if (this.admin.sector_id == 4) {
+        this.apiGetData.getCategory(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 4
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+      else if (this.admin.sector_id == 3) {
+        this.apiGetData.getCategory(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 3
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+      else if (this.admin.sector_id == 2) {
+        this.apiGetData.getCategory(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 2
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+      else {
+        this.apiGetData.getCategory(this.InfoId)
+          .subscribe(result => {
+            this.InfoId = 1
+            this.getNews(this.InfoId);
+            this.resultnews = result
+            this.loading = true
+          })
+      }
+    // console.log(this.admin);
+    })
+   }
 
   userInfo(value) {
     this.apiGetData.queryUserInfo(value).subscribe((response) => {
@@ -87,8 +157,9 @@ export class NewsComponent implements OnInit {
       this.news = response;
       this.loading = true;
       console.log("News", this.news);
-      console.log("News topic", response.type);
-      localStorage.setItem("news_id", JSON.stringify(this.news.id));
+      // console.log("News topic", response.type);
+      // localStorage.setItem("news_id", JSON.stringify(this.news.id));
+
 
     });
   }
@@ -99,12 +170,11 @@ export class NewsComponent implements OnInit {
       detail: new FormControl("", [Validators.required]),
       sector_id: new FormControl(this.InfoId),
     });
-
   }
   addData(value) {
     alert(JSON.stringify(value));
     // this.addDataForm.reset();
-    this.apiAddData.addNews(value,this.files).subscribe((response) => {
+    this.apiAddData.addNews(value, this.files).subscribe((response) => {
       console.log("response", response);
       this.status = response;
       this.state = this.status.success;
@@ -146,9 +216,9 @@ export class NewsComponent implements OnInit {
   getNewsInfo(value) {
     this.apiGetData.getNewInfo(value).subscribe((response) => {
       this.newsInfo = response.map((result) => {
-        return { ...result, image: `http://localhost/TOTFinancial/public/img/${result.image}` };
+        return { ...result, image: `http://localhost:8080/TOTFinancial/public/img/${result.image}` };
       });
-      console.log("newsInfo =>", this.newsInfo.image);
+      console.log("newsInfo =>", this.newsInfo);
       this.viewImageModal.show();
     });
   }
@@ -180,15 +250,15 @@ export class NewsComponent implements OnInit {
   //     });
   //   }
   // }
-    
+
 
   confirm(regulation_id, regulation_name) {
     this.confirmModal.show();
     this.tmp = regulation_id;
     this.tmpName = regulation_name;
   }
-  
-  Deletemodal(id){
+
+  Deletemodal(id) {
     this.confirmModal.show();
     this.del = id;
   }
@@ -212,12 +282,12 @@ export class NewsComponent implements OnInit {
     console.log("fomr data=>", formData);
   }
 
-  onUpdate() {}
-  
+  onUpdate() { }
+
   onDelete() {
     this.confirmModal.hide();
     this.apiAddData.removeNews(this.del).subscribe((response) => {
-      this.getLocalStorage()
+      this.getLocalStorage(this.email)
     })
   }
   EditFormModal(createmodal: TemplateRef<any>, value) {
@@ -252,7 +322,7 @@ export class NewsComponent implements OnInit {
     this.modelRef.hide();
     this.apiAddData.editNews(value).subscribe((response) => {
       console.log("response", response);
-      this.getLocalStorage()
+      this.getLocalStorage(this.email)
     });
     // setTimeout(() => {
     //   this.getNews(this.InfoId);

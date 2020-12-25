@@ -18,7 +18,10 @@ import { FeedDataService } from "../../services/feed-data.service";
 import { AddDataService } from "../../services/add-data.service";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { MessageService } from "../../services/message.service";
-
+import { AuthService } from "../../shared/services/auth.service";
+import { get } from "jquery";
+import { ValidateAdminService } from "../../services/validate-admin.service";
+import { ValueConverter } from "@angular/compiler/src/render3/view/template";
 // import {GetData} from '../../get-data';
 
 @Component({
@@ -47,12 +50,14 @@ export class CategoriesComponent implements OnInit {
   state: any;
   isSubmitted: boolean;
   editSubmitted: boolean;
-
+  uid: any;
   loading = false;
   tmp: number;
   tmpName: string;
+  resultcategory: any = []
   // category_id: any;
-
+  email
+  admin
   constructor(
     private apiCategory: FeedDataService,
     private fb: FormBuilder,
@@ -60,12 +65,18 @@ export class CategoriesComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private afa: AngularFireAuth,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private auth: AuthService,
+    private validate: ValidateAdminService
+  ) { }
 
   ngOnInit(): void {
+   this.email=this.auth.getUser().email;
+  // console.log(this.email);
     // this.sendMessage();
-    this.getLocalStorage();
+    
+    this.getbyemail(this.email);
+    
     // this.getCategory();
     // this.addForm();
     // this.afa.auth.currentUser.then((result) => {
@@ -73,14 +84,141 @@ export class CategoriesComponent implements OnInit {
     //   // test = result;
     // });
   }
+  // testgetbyemail(data){
+  //    this.validate.getbyemail(data).subscribe(result =>{
+  //     //  alert(JSON.stringify(result))
+  //     //  alert(data);
+  //     this.admin = result
 
-  getLocalStorage() {
-    // this.InfoId = localStorage.getItem("sectorId");
-    // this.InfoId1 = localStorage.getItem("id");
-    // this.userInfo(this.InfoId1);
-    this.InfoId = 1;
-    this.getCategory(this.InfoId);
-  }
+  //     console.log('asdf',this.admin);
+  //    })
+  // }               // get ได้แล้ว
+
+
+  getbyemail(data){
+    this.validate.getbyemail(data).subscribe(result =>{
+     this.admin = result
+     if(this.admin.sector_id == 6){
+       this.apiCategory.getCategory(this.InfoId)
+       .subscribe(result=>{
+         this.InfoId = 6
+         this.getCategory(this.InfoId)
+         this.resultcategory = result
+         this.loading = true
+       })
+     }
+     else if (this.admin.sector_id == 5) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          this.InfoId = 5
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+          this.loading = true
+        })
+    }
+    else if (this.admin.sector_id == 4) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          this.InfoId = 4
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+          this.loading = true
+        })
+    }
+    else if (this.admin.sector_id == 3) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          this.InfoId = 3
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+          this.loading = true
+        })
+    }
+    else if (this.admin.sector_id == 2) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          this.InfoId = 2
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+          this.loading = true
+        })
+    }
+    else {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          this.InfoId = 1
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+          this.loading = true
+        })
+    }
+     
+     console.log('asdf',this.admin);
+    })
+ }
+
+ 
+  // getLocalStorage() {
+  //   // this.InfoId = localStorage.getItem("sectorId");
+  //   // this.InfoId1 = localStorage.getItem("id");
+  //   // this.userInfo(this.InfoId);
+  //   // this.InfoId = 4
+  //   if (this.InfoId == 6) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 6
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 5) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 5
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 4) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 4
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 3) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 3
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 2) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 2
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 1
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+
+  // }
 
   userInfo(value) {
     // this.InfoSurname = localStorage.getItem('surname');
@@ -190,28 +328,28 @@ export class CategoriesComponent implements OnInit {
       return;
     }
 
-    this.apiEditCategory.addCategory(value,this.InfoId).subscribe((response) => {
+    this.apiEditCategory.addCategory(value, this.InfoId).subscribe((response) => {
       // alert(JSON.stringify(value));
       this.modelRef.hide();
 
       // this.topicModal.hide();
       this.getCategory(this.InfoId);
-    //   if (response.success == true) {
+      //   if (response.success == true) {
 
-    //     this.topicModal.hide();
-    //     this.getYearList(this.InfoId);
-    //   } else {
-    //     console.log('else');
-    //     alert("ปีนี้มีแล้ว");
+      //     this.topicModal.hide();
+      //     this.getYearList(this.InfoId);
+      //   } else {
+      //     console.log('else');
+      //     alert("ปีนี้มีแล้ว");
 
-    // this.addDataForm.reset(this.addDataForm);
+      // this.addDataForm.reset(this.addDataForm);
 
 
-    //     return { validType: true };
-    //   }
-    //   console.log('นอก else');
+      //     return { validType: true };
+      //   }
+      //   console.log('นอก else');
 
-    //   // alert(JSON.stringify(this.user.message));
+      //   // alert(JSON.stringify(this.user.message));
     });
 
 
@@ -222,7 +360,7 @@ export class CategoriesComponent implements OnInit {
 
 
 
-  addFormModal(createmodal: TemplateRef<any>){
+  addFormModal(createmodal: TemplateRef<any>) {
     this.modelRef = this.modalService.show(
       createmodal,
       Object.assign({}, { class: "gray modal-md modal-dialog-centered" })
@@ -238,11 +376,11 @@ export class CategoriesComponent implements OnInit {
     //   // sector_id: new FormControl(this.InfoId),
     // });
     this.addDataForm = this.fb.group({
-      "category" : new FormControl(null , [Validators.required],this.checkCategory.bind(this) ),
+      "category": new FormControl(null, [Validators.required], this.checkCategory.bind(this)),
       // this.forbiddenNames.bind(this),
     })
     this.addDataForm.patchValue({
-      "category" : " " ,
+      "category": " ",
       // "memberTypesId": value.memberTypeId.toString(),
       // "Target": value.target,
       // "StartDate": this.startDate,
@@ -264,14 +402,14 @@ export class CategoriesComponent implements OnInit {
     this.modelRef.hide();
 
     this.apiEditCategory.editCategory(value).subscribe(response => {
-      console.log('response',response)
+      console.log('response', response)
 
 
 
       this.getCategory(this.InfoId);
 
     })
-    }
+  }
 
 
 
@@ -285,8 +423,8 @@ export class CategoriesComponent implements OnInit {
 
     this.editForm = this.fb.group({
       "id": new FormControl(value.id),
-      "category": new FormControl(null, [Validators.required],this.checkCategory.bind(this)),
-      "sector_id":new FormControl(this.InfoId),
+      "category": new FormControl(null, [Validators.required], this.checkCategory.bind(this)),
+      "sector_id": new FormControl(this.InfoId),
     });
 
     this.editForm.patchValue({
@@ -294,22 +432,22 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  async checkCategory(control:FormControl){
+  async checkCategory(control: FormControl) {
     console.log(control.value);
-      let result = await this.apiEditCategory
-        .checkCategory(
-          control.value,
-          this.InfoId
+    let result = await this.apiEditCategory
+      .checkCategory(
+        control.value,
+        this.InfoId
 
-        )
-        .toPromise();
-      console.log("coontrol .value", control.value);
-      console.log("result=>", result);
-      if (result.success == false) {
-        // alert("1")
-        return { validType: true };
-      }
-      null;
+      )
+      .toPromise();
+    console.log("coontrol .value", control.value);
+    console.log("result=>", result);
+    if (result.success == false) {
+      // alert("1")
+      return { validType: true };
+    }
+    null;
   }
 
 
@@ -346,9 +484,9 @@ export class CategoriesComponent implements OnInit {
 
 
 
-  onUpdate() {}
+  onUpdate() { }
   onDelete() {
-    this.apiEditCategory.removeCategory(this.tmp).subscribe((response) => {});
+    this.apiEditCategory.removeCategory(this.tmp).subscribe((response) => { });
     this.confirmModal.hide();
     this.getCategory(this.InfoId);
   }
