@@ -54,8 +54,8 @@ export class NewsComponent implements OnInit {
   onChangeStatus: any;
   topic: any;
   detail: any;
-  email
-  admin
+  email: any;
+  admin: any;
   constructor(
     private apiGetData: FeedDataService,
     private fb: FormBuilder,
@@ -70,73 +70,77 @@ export class NewsComponent implements OnInit {
   ngOnInit(): void {
     this.email=this.auth.getUser().email;
     this.getLocalStorage(this.email);
+//  alert(JSON.stringify(this.admin))
     this.addDataForm = this.fb.group({
+      sector_id: new FormControl(""),
       topic: new FormControl("", [Validators.required]),
       detail: new FormControl("", [Validators.required]),
       files: new FormControl("", [Validators.required]),
-      sector_id: new FormControl(this.InfoId),
     });
-    
+
   }
 
   getLocalStorage(data) {
     this.validate.getbyemail(data).subscribe(result =>{
       this.admin = result
+      this.addDataForm.patchValue({
+        sector_id: this.admin.sector_id
+      });
       if(this.admin.sector_id == 6){
-        this.apiGetData.getCategory(this.InfoId)
+        this.apiGetData.getNews(this.InfoId)
         .subscribe(result=>{
           this.InfoId = 6
           this.getNews(this.InfoId)
           // this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
       }
       else if (this.admin.sector_id == 5) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 5
            this.getNews(this.InfoId);
           //  this.resultcategory = result
-           this.loading = true
+           this.loading = false
          })
      }
      else if (this.admin.sector_id == 4) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 4
            this.getNews(this.InfoId);
           //  this.resultcategory = result
-           this.loading = true
+           this.loading = false
          })
      }
      else if (this.admin.sector_id == 3) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 3
            this.getNews(this.InfoId);
           //  this.resultcategory = result
-           this.loading = true
+           this.loading = false
          })
      }
      else if (this.admin.sector_id == 2) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 2
            this.getNews(this.InfoId);
           //  this.resultcategory = result
-           this.loading = true
+           this.loading = false
          })
      }
      else {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 1
            this.getNews(this.InfoId);
           //  this.resultcategory = result
-           this.loading = true
+           this.loading = false
          })
      }
-      
+     console.log('NewsSectorID',this.admin);
     // this.InfoId = 1;
     // this.getNews(this.InfoId);
       })
@@ -175,7 +179,7 @@ export class NewsComponent implements OnInit {
   
   addData(value) {
 
-    // alert(JSON.stringify(value));
+    alert(JSON.stringify(value));
     // this.addDataForm.reset();
     this.loading = false;
     this.apiAddData.addNews(value,this.addDataForm.value.files).subscribe(response => {
