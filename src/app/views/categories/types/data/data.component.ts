@@ -46,7 +46,7 @@ export class DataComponent implements OnInit {
   category_id: any;
   fileInfo: any;
   year_list: any;
-  tmpName:any;
+  tmpName: any;
   loading = false;
 
   addDataForm: FormGroup;
@@ -61,12 +61,13 @@ export class DataComponent implements OnInit {
   files = [];
   fileOfTop: any;
   isSubmitted: boolean;
-  tmpVal:any;
-  tmpVal_file_id:any;
-  tmpVal_name:any;
+  tmpVal: any;
+  tmpVal_file_id: any;
+  tmpVal_name: any;
   dtOptions: DataTables.Settings = {};
 
   constructor(
+    protected apiGetRegulation: FeedDataService,
     private apiDataInfo: FeedDataService,
     private apiEditData: AddDataService,
     private fb: FormBuilder,
@@ -94,17 +95,121 @@ export class DataComponent implements OnInit {
     };
   }
   getLocalStorage() {
-    this.InfoId = 1;
-    console.log("categoryID =>", this.category_id);
 
-    this.sector_Info = localStorage.getItem("sectorId");
+    if (this.InfoId == 6) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 6;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
 
-    this.route.queryParams.subscribe((params) => {
-      this.regulationInfo = params["regualtionType"];
-    });
-    console.log("type regulationInfo id =>", this.regulationInfo);
-    this.getFileInfo(this.regulationInfo);
-    this.getYearList(this.InfoId);
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 5) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 5;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
+
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 4) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 4;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
+
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 3) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 3;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
+
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 2) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 2;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
+
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 1;
+          console.log("categoryID =>", this.category_id);
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          this.sector_Info = localStorage.getItem("sectorId");
+
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];
+          });
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.InfoId);
+        })
+    }
   }
 
   getFileInfo(regulation_id) {
@@ -235,8 +340,8 @@ export class DataComponent implements OnInit {
       Object.assign({}, { class: "gray modal-lg modal-dialog-centered" })
     );
     //console.log("value", (value));
-    this.apiDataInfo.getFiles(value.id).subscribe((response)=>{
-        this.fileOfTop = response;
+    this.apiDataInfo.getFiles(value.id).subscribe((response) => {
+      this.fileOfTop = response;
     });
 
     this.tmpVal = value;
@@ -266,7 +371,7 @@ export class DataComponent implements OnInit {
     return this.editForm.controls;
   }
 
-  openFile(value){
+  openFile(value) {
     // window.location.href = 'http://127.0.0.1/public/uploadfiles/Files/' + value;
     window.open(`http://127.0.0.1/TOTFinancial/public/uploadfiles/Files/${value}`, "_blank");
   }
@@ -277,37 +382,37 @@ export class DataComponent implements OnInit {
     this.tmpName = data_topic;
   }
 
-  onDelete(){
-    this.apiEditData.removeFile(this.tmp).subscribe((result)=>{});
+  onDelete() {
+    this.apiEditData.removeFile(this.tmp).subscribe((result) => { });
     this.confirmModal.hide();
 
     setTimeout(() => {
       this.getFileInfo(this.InfoId);
 
-      }, 1000);
+    }, 1000);
   }
 
 
-    onDeleteFiles(){
-      this.apiEditData.removeFiles(this.tmpVal_file_id).subscribe((result)=>{});
-      // this.confirmModal.hide();
-      this.modelRefDel.hide();
-      setTimeout(() => {
+  onDeleteFiles() {
+    this.apiEditData.removeFiles(this.tmpVal_file_id).subscribe((result) => { });
+    // this.confirmModal.hide();
+    this.modelRefDel.hide();
+    setTimeout(() => {
 
-        this.apiDataInfo.getFiles(this.tmpVal.id).subscribe((response)=>{
-          this.fileOfTop = response;
-        });
-      }, 1000);
-    }
-    ConfirmFormModal(createmodal: TemplateRef<any> ,value){
-      this.modelRefDel = this.modalService.show(
-        createmodal,
-        Object.assign({}, { class: "modal-danger modal-md modal-dialog-centered" })
-      );
-      this.tmpVal_file_id = value.id;
-      console.log('tmpVal_file_id=>',this.tmpVal_file_id);
-      this.tmpVal_name = value.file_name;
-    }
+      this.apiDataInfo.getFiles(this.tmpVal.id).subscribe((response) => {
+        this.fileOfTop = response;
+      });
+    }, 1000);
+  }
+  ConfirmFormModal(createmodal: TemplateRef<any>, value) {
+    this.modelRefDel = this.modalService.show(
+      createmodal,
+      Object.assign({}, { class: "modal-danger modal-md modal-dialog-centered" })
+    );
+    this.tmpVal_file_id = value.id;
+    console.log('tmpVal_file_id=>', this.tmpVal_file_id);
+    this.tmpVal_name = value.file_name;
+  }
 
 
 }

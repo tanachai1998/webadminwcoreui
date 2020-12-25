@@ -32,7 +32,8 @@ export class RegisterComponent {
   isSubmitted: boolean;
   user: any;
   isEmailExist: boolean;
-
+  name: any;
+  surName: any;
   email: any;
   password: any;
 
@@ -45,7 +46,7 @@ export class RegisterComponent {
     private router: Router,
     private afs: AngularFireAuth,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.addForm();
@@ -57,18 +58,10 @@ export class RegisterComponent {
     // alert("test")
     this.addUserForm = this.fb.group(
       {
-        name: new FormControl("", [Validators.required]),
-        surName: new FormControl("", [Validators.required]),
-        email: new FormControl("", [
-          Validators.required,
-          // Validators.email,
-          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
-          // this.apiUserService.userValidator()
-        ]),
-        password: new FormControl("", [
-          Validators.required,
-          Validators.minLength(6),
-        ]),
+        name: new FormControl("", [Validators.required, Validators.pattern("[a-zA-Zกขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุูเแโใไๅๆ็่้๊๋์๋์]{1,}")]),
+        surName: new FormControl("", [Validators.required, Validators.pattern("[a-zA-Zกขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุูเแโใไๅๆ็่้๊๋์]{1,}")]),
+        email: new FormControl("", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]),
+        password: new FormControl("", [Validators.required, Validators.minLength(6),]),
         confirmPassword: new FormControl("", [Validators.required]),
         sector_id: new FormControl("", [Validators.required]),
       },
@@ -162,6 +155,10 @@ export class RegisterComponent {
   }
 
   signUp() {
+    this.isSubmitted = true;
+    if (this.addUserForm.invalid) {
+      return;
+    }
     this.authService
       .SignUp(this.addUserForm.value.email, this.addUserForm.value.password)
       .then((result) => {
@@ -179,15 +176,15 @@ export class RegisterComponent {
             this.user = response;
 
             // alert(JSON.stringify(this.user.message));
-
             if (this.user.success == true) {
               this.onRoute();
             }
           });
       })
-      .catch((error) => {
-        window.alert(error.message);
-      });
+    // .catch((error) => {
+    //   return;
+    // });
+
   }
 
   // checkValidate(value) {

@@ -5,58 +5,135 @@
         <div class="col-md-6 mx-auto">
           <div class="card mx-4">
             <div class="card-body p-4">
-              <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+              <form [formGroup]='addUserForm' (ngSubmit)="onSubmit(addUserForm.value)">
                 <!-- (ngSubmit)="addUser(addUserForm.value)" -->
 
                 <h1>ลงทะเบียน</h1>
                 <p class="text-muted">สร้างบัญชีผู้ใช้</p>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="icon-user"></i
-                    ></span>
+                    <span class="input-group-text"><i class="icon-user"></i></span>
                   </div>
 
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="ชื่อ"
-                    autocomplete="username"
-                    formControlName="name"
-                    [ngClass]="{ 'is-invalid': isSubmitted && f.name.errors }"
-                  />
-                  <div
-                    *ngIf="isSubmitted && f.name.errors"
-                    class="invalid-feedback"
-                  >
+                  <input type="text" class="form-control" placeholder="ชื่อ" autocomplete="name" formControlName="name"
+                    required [ngClass]="{ 'is-invalid': isSubmitted && f.name.errors }" />
+                  <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">กรุณากรอก ชื่อ</div>
+                    <div *ngIf=" f.name.errors.pattern">
+                      กรอกชื่อไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <form [formGroup]='addUserForm' (ngSubmit)="onSubmit()">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+
+                  <input type="text" class="form-control" placeholder="นามสกุล" autocomplete="surName"
+                    formControlName="surName" required [ngClass]="{'is-invalid': isSubmitted && f.surName.errors }" />
+                  <div *ngIf="isSubmitted && f.surName.errors" class="invalid-feedback">
+                    <div *ngIf="f.surName.errors.required"> กรุณากรอก นามสกุล </div>
+                    <div *ngIf="f.surName.errors.surName || f.surName.errors.pattern">
+                      กรอกนามสกุลไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
+                    </div>
                   </div>
                 </div>
 
-                <div class="input-group mb-3">
+                <form [formGroup]='addUserForm' (ngSubmit)="onSubmit()">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="อีเมล์" autocomplete="email"
+                      formControlName="email" required [ngClass]="{ 'is-invalid': isSubmitted && f.email.errors }" />
+                    <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">กรุณากรอก อีเมล์</div>
+                      <div *ngIf="f.email.errors.email || f.email.errors.pattern">
+                        กรอกอีเมล์ไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
+                      </div>
+                      <div *ngIf="f.email.errors.email">
+                        อีเมล์นี้ได้มีการถูกใช้ในการลงทะเบียนแล้ว
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <form [formGroup]='addUserForm' (ngSubmit)="onSubmit()">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="รหัสผ่าน" autocomplete="password"
+                      formControlName="password" required [ngClass]="{
+                      'is-invalid': isSubmitted && f.password.errors
+                    }" />
+                    <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">
+                        กรุณากรอก รหัสผ่าน
+                      </div>
+                      <div *ngIf="f.password.errors.minlength">
+                        รหัสผ่านต้องมีจำนวนอย่างน้อย 6 ตัว
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="ยืนยันรหัสผ่าน"
+                      autocomplete="confirmPassword" formControlName="confirmPassword" required [ngClass]="{
+                      'is-invalid': isSubmitted && f.confirmPassword.errors
+                    }" />
+                    <div *ngIf="isSubmitted && f.confirmPassword.errors" class="invalid-feedback">
+                      <div *ngIf="f.confirmPassword.errors.required">
+                        กรุณากรอก ยืนยันรหัสผ่าน
+                      </div>
+                      <div *ngIf="f.confirmPassword.errors.mustMatch">
+                        กรุณากรอก รหัสผ่านให้ถูกต้อง
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <form [formGroup]='addUserForm' (ngSubmit)="onSubmit()">
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-people"></i></span>
+                    </div>
+                    <select class="browser-default custom-select" formControlName="sector_id" [ngClass]="{
+                      'is-invalid': isSubmitted && f.sector_id.errors
+                    }">
+                      <option value="">ส่วนงาน</option>
+                      <option *ngFor="let item of sectorId" value="{{ item.id }}">{{ item.fullName }}</option>
+                    </select>
+
+                    <div *ngIf="isSubmitted && f.sector_id.errors" class="invalid-feedback">
+                      <div *ngIf="f.sector_id.errors.required">
+                        กรุณาเลือกส่วนงาน
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+
+
+
+
+
+                <!-- <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="icon-user"></i
-                    ></span>
+                    <span class="input-group-text"><i class="icon-user"></i></span>
                   </div>
 
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="นามสกุล"
-                    autocomplete="surName"
-                    formControlName="surName"
-                    required
-                    [ngClass]="{
-                      'is-invalid': isSubmitted && f.surName.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="isSubmitted && f.surName.errors"
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="f.surName.errors.required">
-                      กรุณากรอก นามสกุล
+                  <input type="text" class="form-control" placeholder="นามสกุล" autocomplete="surName"
+                    formControlName="surName" required [ngClass]="{'is-invalid': isSubmitted && f.surName.errors }" />
+                  <div *ngIf="isSubmitted && f.surName.errors" class="invalid-feedback">
+                    <div *ngIf="f.surName.errors.required"> กรุณากรอก นามสกุล </div>
+                    <div *ngIf=" f.surName.errors.pattern">
+                      กรอกนามสกุลไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
                     </div>
                   </div>
                 </div>
@@ -65,49 +142,27 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">@</span>
                   </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="อีเมล์"
-                    autocomplete="email"
-                    formControlName="email"
-                    required
-                    [ngClass]="{ 'is-invalid': isSubmitted && f.email.errors }"
-                  />
-                  <div
-                    *ngIf="isSubmitted && f.email.errors"
-                    class="invalid-feedback"
-                  >
+                  <input type="text" class="form-control" placeholder="อีเมล์" autocomplete="email"
+                    formControlName="email" required [ngClass]="{ 'is-invalid': isSubmitted && f.email.errors }" />
+                  <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.required">กรุณากรอก อีเมล์</div>
                     <div *ngIf="f.email.errors.email || f.email.errors.pattern">
                       กรอกอีเมล์ไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
-                    </div>
-                    <!-- <div *ngIf="f.email.errors.email">
+                    </div> 
+                    <div *ngIf="f.email.errors.email">
                       อีเมล์นี้ได้มีการถูกใช้ในการลงทะเบียนแล้ว
-                    </div> -->
-                  </div>
-                </div>
-                <div class="input-group mb-3">
+                    </div> 
+                   </div>
+                </div>-->
+                <!-- <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="icon-lock"></i
-                    ></span>
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
                   </div>
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="รหัสผ่าน"
-                    autocomplete="password"
-                    formControlName="password"
-                    required
-                    [ngClass]="{
+                  <input type="password" class="form-control" placeholder="รหัสผ่าน" autocomplete="password"
+                    formControlName="password" required [ngClass]="{
                       'is-invalid': isSubmitted && f.password.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="isSubmitted && f.password.errors"
-                    class="invalid-feedback"
-                  >
+                    }" />
+                  <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">
                       กรุณากรอก รหัสผ่าน
                     </div>
@@ -118,25 +173,13 @@
                 </div>
                 <div class="input-group mb-4">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="icon-lock"></i
-                    ></span>
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
                   </div>
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="ยืนยันรหัสผ่าน"
-                    autocomplete="confirmPassword"
-                    formControlName="confirmPassword"
-                    required
-                    [ngClass]="{
+                  <input type="password" class="form-control" placeholder="ยืนยันรหัสผ่าน"
+                    autocomplete="confirmPassword" formControlName="confirmPassword" required [ngClass]="{
                       'is-invalid': isSubmitted && f.confirmPassword.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="isSubmitted && f.confirmPassword.errors"
-                    class="invalid-feedback"
-                  >
+                    }" />
+                  <div *ngIf="isSubmitted && f.confirmPassword.errors" class="invalid-feedback">
                     <div *ngIf="f.confirmPassword.errors.required">
                       กรุณากรอก ยืนยันรหัสผ่าน
                     </div>
@@ -148,43 +191,30 @@
 
                 <div class="input-group mb-4">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="icon-people"></i
-                    ></span>
+                    <span class="input-group-text"><i class="icon-people"></i></span>
                   </div>
-                  <select
-                    class="browser-default custom-select"
-                    formControlName="sector_id"
-                    [ngClass]="{
+                  <select class="browser-default custom-select" formControlName="sector_id" [ngClass]="{
                       'is-invalid': isSubmitted && f.sector_id.errors
-                    }"
-                  >
+                    }">
                     <option value="">ส่วนงาน</option>
-                    <option
-                      *ngFor="let item of sectorId"
-                      value="{{ item.id }}"
-                      >{{ item.fullName }}</option
-                    >
+                    <option *ngFor="let item of sectorId" value="{{ item.id }}">{{ item.fullName }}</option>
                   </select>
 
-                  <div
-                    *ngIf="isSubmitted && f.sector_id.errors"
-                    class="invalid-feedback"
-                  >
+                  <div *ngIf="isSubmitted && f.sector_id.errors" class="invalid-feedback">
                     <div *ngIf="f.sector_id.errors.required">
                       กรุณาเลือกส่วนงาน
                     </div>
-                  </div>
+                  </div> -->
 
-                  <!-- <input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" required> -->
-                </div>
-<!--
+                <!-- <input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" required> -->
+
+                <!--
                 <button type="submit" class="btn btn-block btn-success">
                   ลงทะเบียน
                 </button> -->
 
 
-                <button type="button" class="btn btn-block btn-success" (click)="signUp()">
+                <button type="button" class="btn btn-block btn-success" (click)="signUp(addUserForm.value)">
                   ลงทะเบียน
                 </button>
                 <!-- <div>

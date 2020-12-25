@@ -37,6 +37,7 @@ export class CategoriesComponent implements OnInit {
   userID;
   InfoId: any;
   InfoId1: any;
+  resultcategory: any = []
 
   Info: any;
   regulationType: any;
@@ -51,6 +52,7 @@ export class CategoriesComponent implements OnInit {
   loading = false;
   tmp: number;
   tmpName: string;
+  id: any;
   // category_id: any;
 
   constructor(
@@ -61,7 +63,7 @@ export class CategoriesComponent implements OnInit {
     private modalService: BsModalService,
     private afa: AngularFireAuth,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // this.sendMessage();
@@ -74,12 +76,64 @@ export class CategoriesComponent implements OnInit {
     // });
   }
 
+
   getLocalStorage() {
-    // this.InfoId = localStorage.getItem("sectorId");
-    // this.InfoId1 = localStorage.getItem("id");
-    // this.userInfo(this.InfoId1);
-    this.InfoId = 1;
-    this.getCategory(this.InfoId);
+    this.InfoId = 6
+    console.log("sectorID:",this.InfoId)
+    if (this.InfoId == 6) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 6
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    } 
+    else if (this.InfoId == 5) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 5
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    }
+    else if (this.InfoId == 4) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 4
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    }
+    else if (this.InfoId ==  3) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 3
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    }
+    else if (this.InfoId == 2) {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 2
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    } else {
+      this.apiCategory.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 1
+          this.getCategory(this.InfoId);
+          this.resultcategory = result
+        })
+    }
+
   }
 
   userInfo(value) {
@@ -190,28 +244,28 @@ export class CategoriesComponent implements OnInit {
       return;
     }
 
-    this.apiEditCategory.addCategory(value,this.InfoId).subscribe((response) => {
+    this.apiEditCategory.addCategory(value, this.InfoId).subscribe((response) => {
       // alert(JSON.stringify(value));
       this.modelRef.hide();
 
       // this.topicModal.hide();
       this.getCategory(this.InfoId);
-    //   if (response.success == true) {
+      //   if (response.success == true) {
 
-    //     this.topicModal.hide();
-    //     this.getYearList(this.InfoId);
-    //   } else {
-    //     console.log('else');
-    //     alert("ปีนี้มีแล้ว");
+      //     this.topicModal.hide();
+      //     this.getYearList(this.InfoId);
+      //   } else {
+      //     console.log('else');
+      //     alert("ปีนี้มีแล้ว");
 
-    // this.addDataForm.reset(this.addDataForm);
+      // this.addDataForm.reset(this.addDataForm);
 
 
-    //     return { validType: true };
-    //   }
-    //   console.log('นอก else');
+      //     return { validType: true };
+      //   }
+      //   console.log('นอก else');
 
-    //   // alert(JSON.stringify(this.user.message));
+      //   // alert(JSON.stringify(this.user.message));
     });
 
 
@@ -222,7 +276,7 @@ export class CategoriesComponent implements OnInit {
 
 
 
-  addFormModal(createmodal: TemplateRef<any>){
+  addFormModal(createmodal: TemplateRef<any>) {
     this.modelRef = this.modalService.show(
       createmodal,
       Object.assign({}, { class: "gray modal-md modal-dialog-centered" })
@@ -238,11 +292,11 @@ export class CategoriesComponent implements OnInit {
     //   // sector_id: new FormControl(this.InfoId),
     // });
     this.addDataForm = this.fb.group({
-      "category" : new FormControl(null , [Validators.required],this.checkCategory.bind(this) ),
+      "category": new FormControl(null, [Validators.required], this.checkCategory.bind(this)),
       // this.forbiddenNames.bind(this),
     })
     this.addDataForm.patchValue({
-      "category" : " " ,
+      "category": " ",
       // "memberTypesId": value.memberTypeId.toString(),
       // "Target": value.target,
       // "StartDate": this.startDate,
@@ -264,14 +318,14 @@ export class CategoriesComponent implements OnInit {
     this.modelRef.hide();
 
     this.apiEditCategory.editCategory(value).subscribe(response => {
-      console.log('response',response)
+      console.log('response', response)
 
 
 
       this.getCategory(this.InfoId);
 
     })
-    }
+  }
 
 
 
@@ -285,8 +339,8 @@ export class CategoriesComponent implements OnInit {
 
     this.editForm = this.fb.group({
       "id": new FormControl(value.id),
-      "category": new FormControl(null, [Validators.required],this.checkCategory.bind(this)),
-      "sector_id":new FormControl(this.InfoId),
+      "category": new FormControl(null, [Validators.required], this.checkCategory.bind(this)),
+      "sector_id": new FormControl(this.InfoId),
     });
 
     this.editForm.patchValue({
@@ -294,22 +348,22 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  async checkCategory(control:FormControl){
+  async checkCategory(control: FormControl) {
     console.log(control.value);
-      let result = await this.apiEditCategory
-        .checkCategory(
-          control.value,
-          this.InfoId
+    let result = await this.apiEditCategory
+      .checkCategory(
+        control.value,
+        this.InfoId
 
-        )
-        .toPromise();
-      console.log("coontrol .value", control.value);
-      console.log("result=>", result);
-      if (result.success == false) {
-        // alert("1")
-        return { validType: true };
-      }
-      null;
+      )
+      .toPromise();
+    console.log("coontrol .value", control.value);
+    console.log("result=>", result);
+    if (result.success == false) {
+      // alert("1")
+      return { validType: true };
+    }
+    null;
   }
 
 
@@ -346,9 +400,9 @@ export class CategoriesComponent implements OnInit {
 
 
 
-  onUpdate() {}
+  onUpdate() { }
   onDelete() {
-    this.apiEditCategory.removeCategory(this.tmp).subscribe((response) => {});
+    this.apiEditCategory.removeCategory(this.tmp).subscribe((response) => { });
     this.confirmModal.hide();
     this.getCategory(this.InfoId);
   }
