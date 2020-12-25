@@ -3,19 +3,18 @@
     <div class="card-header">
       <div class="row">
         <div class="col-lg-6"><i class="fa fa-align-justify"></i> รูปโครงสร้าง</div>
-
         <div class="col-lg-6">
           <div class="row">
             <div class="col-lg-10">
-              <!-- <div class = "pull-right">
+              <div class = "pull-right">
               <button
                 type="button"
                 class="btn btn-sm btn-primary"
-                (click)="topicModal.show()"
+                (click)="openModal(addStructureImage)"
               >
                 เพิ่มรูปโครงสร้าง
               </button>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -70,15 +69,16 @@
                 </p>
               </td> -->
               <td class="topic">
-                <button type = "button"
+                <!-- <button type = "button"
                 class =" btn btn-primary "
                 (click)="getImageInfo(item.id)">
 
                       <i class="fa fa-search"></i
                     >
-              </button>
-
-                <!-- <img [src] = "'assets/img/' + name.image" style="width: 200px; height: 200px;"> -->
+              </button> -->
+              <div class="cursor">
+                <img [src] = "item.imageFile" style="height: 300px; width: 300px; " class =" btn btn-primary " (click)="getImageInfo(item.id)">
+            </div>
               </td>
               <!-- <td class="topic">
               <input
@@ -98,21 +98,21 @@
                   <i class="fa fa-newspaper-o"></i
                     >
                   </button> -->
-                  <button
+                  <!-- <button
                     type="button"
                     class="btn btn-warning"
                     (click)="editModal.show()"
                   >
                   <i class="fa fa-pencil-square-o fa-lg "></i>
-                  </button>
-                  <!-- <button
+                  <!-- </button> -->
+                   <button
                     type="button"
                     class="btn btn-danger "
-                    (click)="confirmModal.show()"
+                    (click)="Deletemodal(item.id)"
                   >
                   <i class="fa fa-trash-o fa-lg "></i
                     >
-                  </button> -->
+                  </button> 
               </td>
 
               <!-- <td>{{category.type}}</td>
@@ -233,15 +233,15 @@
                   <label class="col-md-3 col-form-label" for="file-multiple-input"
                     >ไฟล์รูป</label
                   >
-                  <!-- <div class="col-md-9">
+                  <div class="col-md-9">
                     <input
                       type="file"
                       id="file-multiple-input"
                       name="file-multiple-input"
-                      (change)="onSelectFile($event)"
+                      (change)="($event)"
                       multiple
                     />
-                  </div> -->
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -326,6 +326,9 @@
         <p>คุณต้องการลบข่าว</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="onDelete()">
+          ยืนยัน
+        </button>
         <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">ยกเลิก</button>
         <!-- <button type="button" class="btn btn-danger" (click)="onDelete()" >ยืนยัน</button> -->
         <!-- <button type="button" class="btn btn-danger" (click)="onDelete(name.id)" >ยืนยัน</button> -->
@@ -387,16 +390,35 @@ aria-hidden="true"
             <img [src] = " news.image">
 
             </div>
-
-
-
-
-
-
-
-
           </div>
         </div>
       </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #addStructureImage class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="addDataForm" (ngSubmit)="onSubmit()">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มรูปโครงสร้าง</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modelRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">รูป </label> 
+          <input type="file" (change)="onSelectFile($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modelRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

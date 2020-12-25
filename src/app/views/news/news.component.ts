@@ -29,7 +29,6 @@ export class NewsComponent implements OnInit {
   addHomeStatus: FormGroup;
   userID;
   InfoId: any;
-  InfoId1: any;
   editForm: FormGroup;
   modelRef: BsModalRef;
 
@@ -40,6 +39,7 @@ export class NewsComponent implements OnInit {
   newsInfo: any;
   sectorInfo: any;
   sectorID: any;
+  sector: any;
   status: any;
   state: any;
   isSubmitted: boolean;
@@ -50,6 +50,8 @@ export class NewsComponent implements OnInit {
   tmpName: any;
   del: any;
   onChangeStatus: any;
+  topic: any;
+  detail: any;
   constructor(
     private apiGetData: FeedDataService,
     private fb: FormBuilder,
@@ -62,11 +64,16 @@ export class NewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLocalStorage();
-    this.addForm();
+    this.addDataForm = this.fb.group({
+      topic: new FormControl("", [Validators.required]),
+      detail: new FormControl("", [Validators.required]),
+      files: new FormControl("", [Validators.required]),
+      sector_id: new FormControl(this.InfoId),
+    });
+    
   }
 
   getLocalStorage() {
-
     this.InfoId = 1;
     this.getNews(this.InfoId);
   }
@@ -83,28 +90,31 @@ export class NewsComponent implements OnInit {
     });
   }
   getNews(value) {
+    
     this.apiGetData.getNews(value).subscribe((response) => {
       this.news = response;
       this.loading = true;
       console.log("News", this.news);
-      console.log("News topic", response.type);
       localStorage.setItem("news_id", JSON.stringify(this.news.id));
-
     });
   }
 
-  addForm() {
-    this.addDataForm = this.fb.group({
-      topic: new FormControl("", [Validators.required]),
-      detail: new FormControl("", [Validators.required]),
-      sector_id: new FormControl(this.InfoId),
-    });
+  // addForm() {
+  //   this.addDataForm = this.fb.group({
+  //     topic: new FormControl("", [Validators.required]),
+  //     detail: new FormControl("", [Validators.required]),
+  //     sector_id: new FormControl(this.InfoId),
+  //   });
 
-  }
+
+  // }
+  
   addData(value) {
-    alert(JSON.stringify(value));
+
+    // alert(JSON.stringify(value));
     // this.addDataForm.reset();
-    this.apiAddData.addNews(value,this.files).subscribe((response) => {
+    this.loading = false;
+    this.apiAddData.addNews(value,this.addDataForm.value.files).subscribe(response => {
       console.log("response", response);
       this.status = response;
       this.state = this.status.success;
@@ -113,13 +123,19 @@ export class NewsComponent implements OnInit {
         console.log("SSstatus = ", this.state);
 
       }
+      this.isSubmitted = true;
+      this.modelRef.hide()
+      this.getLocalStorage();
+      //this.files = [];
     });
-    this.topicModal.hide();
+    this.addDataForm.reset();
+    alert("เพิ่มเรียบร้อย");
   }
 
   get f() {
     return this.addDataForm.controls;
   }
+  
   onSubmit() {
     this.isSubmitted = true;
     // stop here if form is invalid
@@ -129,14 +145,17 @@ export class NewsComponent implements OnInit {
 
       this.addData(this.addDataForm.value);
     }
-    this.getNews(this.InfoId);
+    this.addDataForm.reset
     // display form values on success
   }
+  
   toNewInfo(news_id) {
 
     this.apiGetData.getNewInfo(news_id).subscribe((response) => {
       this.newsInfo = response;
-      console.log("newsInfo =>", this.newsInfo.image);
+      this.newsInfo = response.map((result) => {
+        return { ...result, image: `http://localhost/TOTFinancial/public/img/${result.image}` };
+      });
       this.detailModal.show();
     });
     console.log("news id=>", news_id);
@@ -154,7 +173,12 @@ export class NewsComponent implements OnInit {
   }
 
   onSelectFile(event) {
-    this.files = event.target.files;
+    // this.files = event.target.files;
+    const file = (event.target as HTMLInputElement).files;
+    this.addDataForm.patchValue({
+      files: file
+    });
+    this.addDataForm.get('files').updateValueAndValidity()
   }
 
   // upload() {
@@ -189,6 +213,7 @@ export class NewsComponent implements OnInit {
   }
   
   Deletemodal(id){
+    console.log("id",id)
     this.confirmModal.show();
     this.del = id;
   }
@@ -215,6 +240,7 @@ export class NewsComponent implements OnInit {
   onUpdate() {}
   
   onDelete() {
+    this.loading = false
     this.confirmModal.hide();
     this.apiAddData.removeNews(this.del).subscribe((response) => {
       this.getLocalStorage()
@@ -243,6 +269,7 @@ export class NewsComponent implements OnInit {
   }
 
   EditNews(value) {
+    this.loading = false
     this.isSubmitted = true;
     if (this.editForm.invalid) {
       // alert('xxxxx')
@@ -261,8 +288,12 @@ export class NewsComponent implements OnInit {
     // }, 1000);
 
   }
-
-
+  openModal(template: TemplateRef<any>, topic, detail,files,) {
+    this.topic = topic;
+    this.detail = detail;
+    this.files = files;
+    this.modelRef = this.modalService.show(template);
+  }
 
   get g() {
     return this.editForm.controls;
