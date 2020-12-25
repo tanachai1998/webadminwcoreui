@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   queryUser: FormGroup;
   isValid: boolean = false;
   userID: number;
+  isSubmitted: boolean;
   user: any;
   test: any;
   constructor(
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
     private messageService: MessageService,
     private afa: AngularFireAuth,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.queryEmail();
@@ -38,18 +39,19 @@ export class LoginComponent implements OnInit {
 
   queryEmail() {
     this.queryUser = this.fb.group({
-      email: new FormControl(null, [Validators.required]),
-      password: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
   }
 
   checkValidate(value) {
-
+    this.isSubmitted = true;
+    if (this.queryUser.invalid) {
+      return;
+    }
 
     this.authService
       .SignIn(this.queryUser.value.email, this.queryUser.value.password)
-
-
   }
 
   login() {
@@ -63,5 +65,7 @@ export class LoginComponent implements OnInit {
       console.log(result);
     });
   }
-
+  get f() {
+    return this.queryUser.controls;
+  }
 }
