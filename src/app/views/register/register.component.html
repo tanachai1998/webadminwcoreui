@@ -15,8 +15,10 @@
                     <span class="input-group-text"><i class="icon-user"></i></span>
                   </div>
 
+
                   <input type="text" class="form-control" placeholder="ชื่อ" autocomplete="name" formControlName="name"
                     required [ngClass]="{ 'is-invalid': isSubmitted && f.name.errors }" />
+
                   <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">กรุณากรอก ชื่อ</div>
                     <div *ngIf=" f.name.errors.pattern">
@@ -33,6 +35,7 @@
                   </div>
 
                   <input type="text" class="form-control" placeholder="นามสกุล" autocomplete="surName"
+
                     formControlName="surName" required [ngClass]="{'is-invalid': isSubmitted && f.surName.errors }" />
                   <div *ngIf="isSubmitted && f.surName.errors" class="invalid-feedback">
                     <div *ngIf="f.surName.errors.required"> กรุณากรอก นามสกุล </div>
@@ -134,6 +137,7 @@
                     <div *ngIf="f.surName.errors.required"> กรุณากรอก นามสกุล </div>
                     <div *ngIf=" f.surName.errors.pattern">
                       กรอกนามสกุลไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง
+
                     </div>
                   </div>
                 </div>
@@ -206,7 +210,9 @@
                     </div>
                   </div> -->
 
-                <!-- <input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" required> -->
+
+                  <!-- <input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" required> -->
+                </div>
 
                 <!--
                 <button type="submit" class="btn btn-block btn-success">

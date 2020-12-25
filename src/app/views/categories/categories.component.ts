@@ -18,7 +18,10 @@ import { FeedDataService } from "../../services/feed-data.service";
 import { AddDataService } from "../../services/add-data.service";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { MessageService } from "../../services/message.service";
-
+import { AuthService } from "../../shared/services/auth.service";
+import { get } from "jquery";
+import { ValidateAdminService } from "../../services/validate-admin.service";
+import { ValueConverter } from "@angular/compiler/src/render3/view/template";
 // import {GetData} from '../../get-data';
 
 @Component({
@@ -48,13 +51,16 @@ export class CategoriesComponent implements OnInit {
   state: any;
   isSubmitted: boolean;
   editSubmitted: boolean;
-
+  uid: any;
   loading = false;
   tmp: number;
   tmpName: string;
-  id: any;
-  // category_id: any;
 
+  resultcategory: any = []
+
+  // category_id: any;
+  email
+  admin
   constructor(
     private apiCategory: FeedDataService,
     private fb: FormBuilder,
@@ -62,12 +68,20 @@ export class CategoriesComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private afa: AngularFireAuth,
-    private messageService: MessageService
+
+    private messageService: MessageService,
+    private auth: AuthService,
+    private validate: ValidateAdminService
+
   ) { }
 
   ngOnInit(): void {
+   this.email=this.auth.getUser().email;
+  // console.log(this.email);
     // this.sendMessage();
-    this.getLocalStorage();
+    
+    this.getbyemail(this.email);
+    
     // this.getCategory();
     // this.addForm();
     // this.afa.auth.currentUser.then((result) => {
@@ -75,66 +89,143 @@ export class CategoriesComponent implements OnInit {
     //   // test = result;
     // });
   }
+  // testgetbyemail(data){
+  //    this.validate.getbyemail(data).subscribe(result =>{
+  //     //  alert(JSON.stringify(result))
+  //     //  alert(data);
+  //     this.admin = result
+
+  //     console.log('asdf',this.admin);
+  //    })
+  // }               // get ได้แล้ว
 
 
-  getLocalStorage() {
-    this.InfoId = 6
-    console.log("sectorID:",this.InfoId)
-    if (this.InfoId == 6) {
+  getbyemail(data){
+    this.validate.getbyemail(data).subscribe(result =>{
+     this.admin = result
+     if(this.admin.sector_id == 6){
+       this.apiCategory.getCategory(this.InfoId)
+       .subscribe(result=>{
+         this.InfoId = 6
+         this.getCategory(this.InfoId)
+         this.resultcategory = result
+         this.loading = true
+       })
+     }
+     else if (this.admin.sector_id == 5) {
       this.apiCategory.getCategory(this.InfoId)
         .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 6
-          this.getCategory(this.InfoId);
-          this.resultcategory = result
-        })
-    } 
-    else if (this.InfoId == 5) {
-      this.apiCategory.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
           this.InfoId = 5
           this.getCategory(this.InfoId);
           this.resultcategory = result
+          this.loading = true
         })
     }
-    else if (this.InfoId == 4) {
+    else if (this.admin.sector_id == 4) {
       this.apiCategory.getCategory(this.InfoId)
         .subscribe(result => {
-          //console.log("role5" , result); 
           this.InfoId = 4
           this.getCategory(this.InfoId);
           this.resultcategory = result
+          this.loading = true
         })
     }
-    else if (this.InfoId ==  3) {
+    else if (this.admin.sector_id == 3) {
       this.apiCategory.getCategory(this.InfoId)
         .subscribe(result => {
-          //console.log("role5" , result); 
           this.InfoId = 3
           this.getCategory(this.InfoId);
           this.resultcategory = result
+          this.loading = true
         })
     }
-    else if (this.InfoId == 2) {
+    else if (this.admin.sector_id == 2) {
       this.apiCategory.getCategory(this.InfoId)
         .subscribe(result => {
-          //console.log("role5" , result); 
           this.InfoId = 2
           this.getCategory(this.InfoId);
           this.resultcategory = result
+          this.loading = true
         })
-    } else {
+    }
+    else {
       this.apiCategory.getCategory(this.InfoId)
         .subscribe(result => {
-          //console.log("role5" , result); 
           this.InfoId = 1
           this.getCategory(this.InfoId);
           this.resultcategory = result
+          this.loading = true
         })
     }
+     
+     console.log('asdf',this.admin);
+    })
+ }
 
-  }
+ 
+  // getLocalStorage() {
+  //   // this.InfoId = localStorage.getItem("sectorId");
+  //   // this.InfoId1 = localStorage.getItem("id");
+  //   // this.userInfo(this.InfoId);
+  //   // this.InfoId = 4
+  //   if (this.InfoId == 6) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 6
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 5) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 5
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 4) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 4
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 3) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 3
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else if (this.InfoId == 2) {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 2
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+  //   else {
+  //     this.apiCategory.getCategory(this.InfoId)
+  //       .subscribe(result => {
+  //         this.InfoId = 1
+  //         this.getCategory(this.InfoId);
+  //         this.resultcategory = result
+  //         this.loading = true
+  //       })
+  //   }
+
+
+  // }
+
 
   userInfo(value) {
     // this.InfoSurname = localStorage.getItem('surname');

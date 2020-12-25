@@ -10,13 +10,15 @@ import { Router } from "@angular/router";
 import { RegisterService } from "../../services/register.service";
 import { MessageService } from "../../services/message.service";
 import { FeedDataService } from "../../services/feed-data.service";
+import { variable } from "@angular/compiler/src/output/output_ast";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
   userData: any; // Save logged in user data
-
+  //userData2: any = [];
+  user: any;
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -85,12 +87,15 @@ export class AuthService {
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-
-
+    this.userData = user
     return user !== null ? true : false;
   }
 
+  getUser(){
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.userData = user
+    return this.userData;
+  }
   // Sign in with Google
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider());

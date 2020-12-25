@@ -26,7 +26,7 @@ export class DefaultLayoutComponent {
     private apiData: FeedDataService,
     private messageService: MessageService,
     public afAuth: AngularFireAuth,
-    private _AuthService:AuthService,
+    private _AuthService: AuthService,
   ) {
     // this.userID = localStorage.getItem("id");
 
@@ -39,29 +39,29 @@ export class DefaultLayoutComponent {
     //     .subscribe((message) => {
     //       // alert(JSON.stringify(message));
     //       if (message) {
-            this.apiData.queryUserInfo(4).subscribe((response) => {
-              this.sector = response;
-              console.log(JSON.stringify(response));
-              // alert(JSON.stringify(response));
-              console.log("sector", this.sector);
+    this.apiData.queryUserInfo(5).subscribe((response) => {
+      this.sector = response;
+      // console.log(JSON.stringify(response));
+      // alert(JSON.stringify(response));
+      // console.log("sector", this.sector);
 
-              this.navItems = navItems.map((result) => {
-                if (result.name == "test") {
-                  return { ...result, name: this.sector.sector.fullName };
-                } else {
-                  return { ...result };
-                }
-              });
-            });
-        //   } else {
-        //     this.navItems = navItems;
-        //     // clear messages when empty message received
-        //     // this.message = [];
-        //   }
-        // });
+      this.navItems = navItems.map((result) => {
+        if (result.name == "test") {
+          return { ...result, name: this.sector.sector.fullName };
+        } else {
+          return { ...result };
+        }
+      });
+    });
+    //   } else {
+    //     this.navItems = navItems;
+    //     // clear messages when empty message received
+    //     // this.message = [];
+    //   }
+    // });
     // });
 
-    console.log("user ID", this.userID);
+    // console.log("user ID", this.userID);
 
     // });
     // async
@@ -84,7 +84,7 @@ export class DefaultLayoutComponent {
     // });
     this.noti = 3;
   }
-  logOut(){
+  logOut() {
     this._AuthService.SignOut();
   }
 
