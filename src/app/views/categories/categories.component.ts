@@ -56,7 +56,7 @@ export class CategoriesComponent implements OnInit {
   tmp: number;
   tmpName: string;
 
-  resultcategory: any = []
+  
 
   // category_id: any;
   email
