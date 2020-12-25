@@ -15,6 +15,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { FeedDataService } from "../../../services/feed-data.service";
 import { AddDataService } from "../../../services/add-data.service";
+import { ValidateAdminService } from "../../../services/validate-admin.service";
+import { AuthService } from "../../../shared/services/auth.service";
 @Component({
   selector: "app-types",
   templateUrl: "./types.component.html",
@@ -53,144 +55,149 @@ export class TypesComponent implements OnInit {
   typeOnChange: any;
   value: any = []
   sector_id: any = []
-
+  email
+  admin
   constructor(
     protected apiGetRegulation: FeedDataService,
     protected apiEditData: AddDataService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private auth: AuthService,
+    private validate: ValidateAdminService
   ) {
 
   }
 
   ngOnInit(): void {
     // alert('type');
-    this.getLocalStorage();
+    this.email = this.auth.getUser().email;
+    this.getLocalStorage(this.email);
+    this.getRegulationType
     this.addForm();
   }
 
-  getLocalStorage() {
-    this.InfoId = 6
-    if (this.InfoId == 6) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 6
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
+  getLocalStorage(data) {
+    this.validate.getbyemail(data).subscribe(result => {
+      this.admin = result
+      if (this.admin.sector_id == 6) {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 6
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
 
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
 
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
+      else if (this.admin.sector_id == 5) {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 5
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
+
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
+
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
+      else if (this.admin.sector_id == 4) {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 4
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
+
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
+
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
+      else if (this.admin.sector_id == 3) {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 3
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
+
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
+
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
+      else if (this.admin.sector_id == 2) {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 2
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
+
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
+
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
+      else {
+        this.apiGetRegulation.getCategory(this.InfoId)
+          .subscribe(result => {
+            //console.log("role5" , result); 
+            this.InfoId = 1
+            this.route.queryParams.subscribe((params) => {
+              this.category_id = params["categoryID"];
+            });
+            console.log("type category id =>", this.category_id);
+
+            console.log("sector_id=>", this.admin.sector_id);
+            this.strID = this.category_id;
+            console.log(" str id =>", this.strID);
+
+            this.getRegulationType(this.strID, this.InfoId);
+            this.getYearList(this.InfoId);
+          })
+      }
     }
-    else if (this.InfoId == 5) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 5
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
-
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
-
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 4) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 4
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
-
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
-
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 3) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 3
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
-
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
-
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 2) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 2
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
-
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
-
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 1
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          console.log("type category id =>", this.category_id);
-
-          console.log("sector_id=>", this.InfoId);
-          this.strID = this.category_id;
-          console.log(" str id =>", this.strID);
-
-          this.getRegulationType(this.strID, this.InfoId);
-          this.getYearList(this.InfoId);
-        })
-    }
+    )
   }
 
-  getRegulationType(category_id, InfoId) {
-    this.InfoId=6
-    
-    console.log('category_id is',this.category_id)
-    if (InfoId == 6) {
+  getRegulationType(category_id, sector_id) {
+    if (this.admin.sector_id == 6) {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -204,10 +211,10 @@ export class TypesComponent implements OnInit {
           this.showRegulation = this.regulationType;
         });
     }
-    else if (this.InfoId == 5) {
+    else if (this.admin.sector_id  == 5) {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -221,10 +228,10 @@ export class TypesComponent implements OnInit {
           this.showRegulation = this.regulationType;
         });
     }
-    else if ( this.InfoId == 4) {
+    else if (this.admin.sector_id  == 4) {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -238,10 +245,10 @@ export class TypesComponent implements OnInit {
           this.showRegulation = this.regulationType;
         });
     }
-    else if (this.InfoId == 3) {
+    else if (this.admin.sector_id  == 3) {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -255,10 +262,10 @@ export class TypesComponent implements OnInit {
           this.showRegulation = this.regulationType;
         });
     }
-    else if (this.InfoId == 2) {
+    else if (this.admin.sector_id  == 2) {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -275,7 +282,7 @@ export class TypesComponent implements OnInit {
     else {
       this.loading = false;
       this.apiGetRegulation
-        .getRegulationType(category_id, InfoId)
+        .getRegulationType(category_id, sector_id)
         .subscribe((response) => {
           this.regulationType = response;
           this.regulationForFilter = response;
@@ -435,7 +442,7 @@ export class TypesComponent implements OnInit {
     this.apiEditData.editRegulation(value).subscribe((response) => {
       console.log("response", response);
 
-      this.getRegulationType(this.strID, this.InfoId);
+      this.getRegulationType(this.strID, this.admin.sector_id);
     });
   }
 
@@ -464,18 +471,26 @@ export class TypesComponent implements OnInit {
 
           this.topicModal.hide();
           this.getRegulationType(this.strID, this.InfoId);
-          console.log("sector_id", this.InfoId);
+          console.log("sector_id", this.sector_id);
         }
       });
 
   }
 
-  toDataInfo(regualtion_id) {
-    console.log("regualtion_type =>", regualtion_id);
+
+  toDataInfo(category_id) {
+    console.log("category id=>", category_id);
     this.router.navigate(["categories/types/data"], {
-      queryParams: { regualtionType: regualtion_id },
+      queryParams: { categoryID: category_id },
     });
   }
+
+  // toDataInfo(id) {
+  //   console.log("category_id =>", id);
+  //   this.router.navigate(["categories/types/data"], {queryParams: { regualtionType: id },}
+  
+  //   );
+  // }
 
   confirm(regulation_id, regulation_name) {
     this.confirmModal.show();
