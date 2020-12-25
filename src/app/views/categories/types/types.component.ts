@@ -51,7 +51,8 @@ export class TypesComponent implements OnInit {
   yearPatchVal: any;
   yearOnChange: any;
   typeOnChange: any;
-
+  value: any = []
+  sector_id: any = []
 
   constructor(
     protected apiGetRegulation: FeedDataService,
@@ -71,42 +72,226 @@ export class TypesComponent implements OnInit {
   }
 
   getLocalStorage() {
-    this.InfoId = 1;
+    this.InfoId = 6
+    if (this.InfoId == 6) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 6
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
 
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
 
-    this.route.queryParams.subscribe((params) => {
-      this.category_id = params["categoryID"];
-    });
-    console.log("type category id =>", this.category_id);
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 5) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 5
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
 
-    console.log("sector_id=>", this.InfoId);
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
 
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 4) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 4
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
 
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
 
-    this.strID = this.category_id;
-    console.log(" str id =>", this.strID);
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 3) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 3
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
 
-    this.getRegulationType(this.strID, this.InfoId);
-    this.getYearList(this.InfoId);
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
+
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else if (this.InfoId == 2) {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 2
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
+
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
+
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
+    else {
+      this.apiGetRegulation.getCategory(this.InfoId)
+        .subscribe(result => {
+          //console.log("role5" , result); 
+          this.InfoId = 1
+          this.route.queryParams.subscribe((params) => {
+            this.category_id = params["categoryID"];
+          });
+          console.log("type category id =>", this.category_id);
+
+          console.log("sector_id=>", this.InfoId);
+          this.strID = this.category_id;
+          console.log(" str id =>", this.strID);
+
+          this.getRegulationType(this.strID, this.InfoId);
+          this.getYearList(this.InfoId);
+        })
+    }
   }
 
-  getRegulationType(value, sector_id) {
-    this.loading = false;
-    this.apiGetRegulation
-      .getRegulationType(1, 1)
-      .subscribe((response) => {
-        this.regulationType = response;
-        this.regulationForFilter = response;
-        console.log("reg", this.regulationType);
-        console.log("reg2", this.regulationForFilter);
+  getRegulationType(category_id, InfoId) {
+    this.InfoId=6
+    
+    console.log('category_id is',this.category_id)
+    if (InfoId == 6) {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
 
-        this.loading = true;
-        this.dtOptions = {
-          pagingType: "simple_numbers",
-          pageLength: 10,
-        };
-        this.showRegulation = this.regulationType;
-      });
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+    }
+    else if (this.InfoId == 5) {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
+
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+    }
+    else if ( this.InfoId == 4) {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
+
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+    }
+    else if (this.InfoId == 3) {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
+
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+    }
+    else if (this.InfoId == 2) {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
+
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+    }
+    else {
+      this.loading = false;
+      this.apiGetRegulation
+        .getRegulationType(category_id, InfoId)
+        .subscribe((response) => {
+          this.regulationType = response;
+          this.regulationForFilter = response;
+          console.log("reg", this.regulationType);
+
+          this.loading = true;
+          this.dtOptions = {
+            pagingType: "simple_numbers",
+            pageLength: 10,
+          };
+          this.showRegulation = this.regulationType;
+        });
+
+    }
+
+
   }
 
   filterYear(filterVal: any) {
@@ -132,10 +317,10 @@ export class TypesComponent implements OnInit {
 
   }
 
-  getYearList(value) {
-    this.apiGetRegulation.getYearList(1).subscribe((response) => {
+  getYearList(sector_id) {
+    this.apiGetRegulation.getYearList(sector_id).subscribe((response) => {
       this.year_list = response;
-      console.log('year',this.year_list)
+      console.log('year', this.year_list)
     });
   }
 
@@ -212,11 +397,9 @@ export class TypesComponent implements OnInit {
       this.showTypeText = false;
     } else {
 
-      if(this.isInsert == true ){
+      if (this.isInsert == true) {
 
-        this.addDataForm.patchValue({
-          type: ""
-        });
+        this.addDataForm.patchValue({ type: "" });
       }
 
       this.showTypeText = true;
@@ -224,12 +407,19 @@ export class TypesComponent implements OnInit {
 
   }
 
-  insertType(){
+  insertType() {
     this.topicModal.show();
-    this.addDataForm.reset();
-    this.isSubmitted = false;
-    this.showTypeText = false;
-    this.isInsert = true;
+    this.modelRef = this.modalService.show(
+      Object.assign({}, { class: "gray modal-md modal-dialog-centered" })
+    );
+    this.addDataForm = this.fb.group({
+      "category": new FormControl(null, [Validators.required], this.checkRegulation.bind(this)),
+    })
+    this.addDataForm.patchValue({
+      "category": " ",
+
+
+    })
 
   }
 
@@ -264,19 +454,19 @@ export class TypesComponent implements OnInit {
       // alert('xxxxx')
       return;
     }
-      this.apiEditData
-        .addRegulation(value, this.category_id, this.InfoId)
-        .subscribe((response) => {
-            this.status = response;
-            console.log("response = >", response);
-            if (this.status.success == true) {
-              console.log("SSstatus = ", this.state);
+    this.apiEditData
+      .addRegulation(value, this.category_id, this.InfoId)
+      .subscribe((response) => {
+        this.status = response;
+        console.log("response = >", response);
+        if (this.status.success == true) {
+          console.log("SSstatus = ", this.state);
 
-              this.topicModal.hide();
-              this.getRegulationType(this.strID, this.InfoId);
-              console.log("sector_id", this.InfoId);
-            }
-        });
+          this.topicModal.hide();
+          this.getRegulationType(this.strID, this.InfoId);
+          console.log("sector_id", this.InfoId);
+        }
+      });
 
   }
 
@@ -293,11 +483,11 @@ export class TypesComponent implements OnInit {
     this.tmpName = regulation_name;
   }
 
-  onUpdate() {}
+  onUpdate() { }
   onDelete() {
     console.log("tmp => ", this.tmp);
 
-    this.apiEditData.removeType(this.tmp).subscribe((response) => {});
+    this.apiEditData.removeType(this.tmp).subscribe((response) => { });
     this.confirmModal.hide();
     this.getRegulationType(this.category_id, this.InfoId);
   }

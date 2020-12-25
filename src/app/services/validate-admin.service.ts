@@ -5,6 +5,12 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class ValidateAdminService {
+  password(email: (email: any, password: any) => void, password: any) {
+    throw new Error("Method not implemented.");
+  }
+  email(email: any, password: any) {
+    throw new Error("Method not implemented.");
+  }
   constructor(private http: HttpClient) {}
   @Inject("BASE_URL") private baseUrl: string;
 

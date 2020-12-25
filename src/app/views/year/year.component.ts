@@ -53,8 +53,32 @@ export class YearComponent implements OnInit {
   }
 
   getLocalStorage() {
-    this.InfoId = 1;
-    this.getYearList(this.InfoId);
+    this.InfoId = 6
+    console.log("sectorID:",this.InfoId)
+      if( this.InfoId == 6){
+        this.InfoId = 6;
+        this.getYearList(this.InfoId);
+      }
+      else if( this.InfoId == 5){
+        this.InfoId = 5;
+        this.getYearList(this.InfoId);
+      }
+      else if( this.InfoId == 4){
+        this.InfoId = 4;
+        this.getYearList(this.InfoId);
+      }
+      else if( this.InfoId == 3){
+        this.InfoId = 3;
+        this.getYearList(this.InfoId);
+      }
+      else if( this.InfoId == 2){
+        this.InfoId = 2;
+        this.getYearList(this.InfoId);
+      }
+      else{
+        this.InfoId = 1;
+        this.getYearList(this.InfoId);
+      }
   }
 
   getYearList(value) {
@@ -96,12 +120,10 @@ export class YearComponent implements OnInit {
     );
 
     this.addDataForm = this.fb.group({
-      "year" : new FormControl(null , [Validators.required,Validators.minLength(4)],this.checkYear.bind(this) ),
+      "year" : new FormControl(null , [Validators.required,Validators.pattern("[0-9]{4,4}")],this.checkYear.bind(this) ),
     })
     this.addDataForm.patchValue({
       "year" : " " ,
-
-
 
     })
 
@@ -123,11 +145,7 @@ export class YearComponent implements OnInit {
 
     this.apiEditData.editYear(value).subscribe(response => {
       console.log('response',response)
-
-
-
       this.getYearList(this.InfoId);
-
     })
     }
 

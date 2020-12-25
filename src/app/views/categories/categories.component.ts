@@ -40,6 +40,7 @@ export class CategoriesComponent implements OnInit {
   userID;
   InfoId: any;
   InfoId1: any;
+  resultcategory: any = []
 
   Info: any;
   regulationType: any;
@@ -54,7 +55,9 @@ export class CategoriesComponent implements OnInit {
   loading = false;
   tmp: number;
   tmpName: string;
+
   resultcategory: any = []
+
   // category_id: any;
   email
   admin
@@ -65,9 +68,11 @@ export class CategoriesComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private afa: AngularFireAuth,
+
     private messageService: MessageService,
     private auth: AuthService,
     private validate: ValidateAdminService
+
   ) { }
 
   ngOnInit(): void {
@@ -218,7 +223,9 @@ export class CategoriesComponent implements OnInit {
   //       })
   //   }
 
+
   // }
+
 
   userInfo(value) {
     // this.InfoSurname = localStorage.getItem('surname');

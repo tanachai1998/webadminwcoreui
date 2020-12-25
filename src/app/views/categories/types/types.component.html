@@ -11,26 +11,16 @@
                 <div class="col-lg-7"></div>
                 <div class="col-lg-5">
                   <div class="pull-left">
-                    <select
-                      class="btn btn-sm btn-primary"
-                      (change)="filterYear($event.target.value)"
-                    >
+                    <select class="btn btn-sm btn-primary" (change)="filterYear($event.target.value)">
                       <option value="0">ปีทั้งหมด</option>
-                      <option
-                        *ngFor="let year of year_list"
-                        value="{{ year.year }}"
-                      >
+                      <option *ngFor="let year of year_list" value="{{ year.year }}">
                         {{ year.year }}
                       </option>
                     </select>
                   </div>
 
                   <div class="pull-right">
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-primary"
-                      (click)="insertType()"
-                    >
+                    <button type="button" class="btn btn-sm btn-primary" (click)="topicModal.show()">
                       เพิ่มประเภท
                     </button>
                   </div>
@@ -40,11 +30,7 @@
           </div>
         </div>
         <div *ngIf="loading == true" class="card-body">
-          <table
-            datatable
-            [dtOptions]="dtOptions"
-            class="table table-striped table-hover table-responsive-lg"
-          >
+          <table datatable [dtOptions]="dtOptions" class="table table-striped table-hover table-responsive-lg">
             <thead>
               <tr>
                 <th style="width: 35%;text-align: center;">
@@ -68,31 +54,17 @@
                 </td>
                 <td>
                   <div style="text-align: center; ">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    (click)="toDataInfo(name.id)"
-                  >
+                    <button type="button" class="btn btn-primary" (click)="toDataInfo(name.id)">
 
-                      <i class="fa fa-folder-open fa-lg "></i
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-warning"
-                    (click)="EditFormModal(EditData, name)"
-                  >
-                  <i class="fa fa-pencil-square-o fa-lg "></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="confirm(name.id, name.type)"
-                  >
-                  <i class="fa fa-trash-o fa-lg "></i
-                    >
-                  </button>
-                </div>
+                      <i class="fa fa-folder-open fa-lg "></i>
+                    </button>
+                    <button type="button" class="btn btn-warning" (click)="EditFormModal(EditData, name)">
+                      <i class="fa fa-pencil-square-o fa-lg "></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="confirm(name.id, name.type)">
+                      <i class="fa fa-trash-o fa-lg "></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -102,38 +74,23 @@
     </div>
     <!--/.col-->
 
-    <div
-      bsModal
-      #topicModal="bs-modal"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      aria-hidden="true"
-    >
+    <div bsModal #topicModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">เพิ่มประเภท</h4>
-            <button
-              type="button"
-              class="close"
-              (click)="topicModal.hide()"
-              aria-label="Close"
-            >
+            <button type="button" class="close" (click)="topicModal.hide()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          
           <div class="modal-body">
             <!-- <p>One fine body&hellip;</p> -->
             <div class="card">
               <div class="card-body">
-                <form
-                  [formGroup]="addDataForm"
-                  (ngSubmit)="onSubmit(addDataForm.value)"
-                  enctype="multipart/form-data"
-                  class="form-horizontal"
-                >
+                <form [formGroup]="addDataForm" (ngSubmit)="onSubmit(addDataForm.value)" enctype="multipart/form-data"
+                  class="form-horizontal">
                   <!-- <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input"
                       >เพิ่มประเภท</label
@@ -161,30 +118,29 @@
                     </div>
                   </div> -->
                   <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input"
-                      >ปี</label
-                    >
+                    <label class="col-md-3 col-form-label" for="text-input">ประเภท</label>
                     <div class="col-md-9">
-                      <select
-                        class="browser-default custom-select"
-                        formControlName="year"
-                        (change)="onChangeYear($event)"
-                        [ngClass]="{
+                      <input type="text" class="form-control" placeholder="คู่มือ/ คำสั่ง/ ระเบียบ" formControlName="type" [ngClass]="{
+                        'is-invalid': isSubmitted && f.type.errors
+                      }" />
+                      <div *ngIf="isSubmitted && f.type.errors" class="invalid-feedback">
+                        <div *ngIf="f.type.errors.required">
+                          กรุณากรอก ประเภท
+                        </div>
+                      </div>
+                    </div>
+
+                    <label class="col-md-3 col-form-label" for="text-input"><br>ปี</label>
+                    <div class="col-md-9"><br>
+                      <select class="browser-default custom-select" formControlName="year"
+                        (change)="onChangeYear($event)" [ngClass]="{
                           'is-invalid': isSubmitted && f.year.errors
-                        }"
-                      >
+                        }">
                         <option value="">ปี</option>
-                        <option
-                          *ngFor="let item of year_list"
-                          value="{{ item.id }}"
-                          >{{ item.year }}</option
-                        >
+                        <option *ngFor="let item of year_list" value="{{ item.id }}">{{ item.year }}</option>
                       </select>
 
-                      <div
-                        *ngIf="isSubmitted && f.year.errors"
-                        class="invalid-feedback"
-                      >
+                      <div *ngIf="isSubmitted && f.year.errors" class="invalid-feedback">
                         <div *ngIf="f.year.errors.required">
                           กรุณาเลือก ปี
                         </div>
@@ -196,27 +152,16 @@
                   </div>
 
                   <div *ngIf="showTypeText" class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input"
-                      >เพิ่มประเภท</label
-                    >
+                    <label class="col-md-3 col-form-label" for="text-input">เพิ่มประเภท</label>
                     <div class="col-md-9">
                       <!-- (keyup)="onChangeType($event)" -->
 
-                      <input
-                        type="text"
-                        name="text-input"
-                        class="form-control"
-                        placeholder="ประเภท"
-                        formControlName="type"
-                        [ngClass]="{
+                      <input type="text" name="text-input" class="form-control" placeholder="ประเภท"
+                        formControlName="type" [ngClass]="{
                           'is-invalid': isSubmitted && f.type.errors
-                        }"
-                      />
+                        }" />
                       <!-- <span class="help-block">This is a help text</span> -->
-                      <div
-                        *ngIf="isSubmitted && f.type.errors"
-                        class="invalid-feedback"
-                      >
+                      <div *ngIf="isSubmitted && f.type.errors" class="invalid-feedback">
                         <div *ngIf="f.type.errors.required">
                           กรุณากรอก ประเภท
                         </div>
@@ -229,15 +174,11 @@
 
                   <div class="row">
                     <div class="col-md-6">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        (click)="topicModal.hide()"
-                      >
-                        ยกเลิก
-                      </button>
                       <button type="submit" class="btn btn-primary">
-                        บันทึก
+                        <i class="fa fa-save"></i> บันทึก
+                      </button>
+                      <button type="button" class="btn btn-secondary" (click)="topicModal.hide()">
+                        ยกเลิก
                       </button>
                     </div>
                   </div>
@@ -262,13 +203,8 @@
             <h6 class="modal-title" id="title">
               <i class="fa fa-pencil fa-lg"></i> แก้ไขประเภท
             </h6>
-            <button
-              (click)="modelRef.hide()"
-              type="button"
-              class="close text-danger"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button (click)="modelRef.hide()" type="button" class="close text-danger" data-dismiss="modal"
+              aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -279,26 +215,14 @@
               <label class="col-md-3 col-form-label" for="text-input">ปี</label>
               <div class="col-md-9">
                 <!-- <select -->
-                  <ng-select
-                  formControlName="year"
-                  (change)="onChangeYear($event)"
-                  [ngClass]="{
+                <ng-select formControlName="year" (change)="onChangeYear($event)" [ngClass]="{
                     'is-invalid': isSubmitted && g.year.errors
-                  }"
-                  bindLabel="year"
-                  bindValue="id"
-                  [items]="year_list"
-                  [(ngModel)]="yearPatchVal"
-
-                >
+                  }" bindLabel="year" bindValue="id" [items]="year_list" [(ngModel)]="yearPatchVal">
 
 
                 </ng-select>
 
-                <div
-                  *ngIf="isSubmitted && g.year.errors"
-                  class="invalid-feedback"
-                >
+                <div *ngIf="isSubmitted && g.year.errors" class="invalid-feedback">
                   <div *ngIf="g.year.errors.required">
                     กรุณาเลือก ปี
                   </div>
@@ -310,21 +234,11 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="text-input"
-                >แก้ไขประเภท</label
-              >
+              <label class="col-md-3 col-form-label" for="text-input">แก้ไขประเภท</label>
               <div class="col-md-9">
-                <input
-                  type="text"
-                  name="type"
-                  class="form-control"
-                  formControlName="type"
-                />
+                <input type="text" name="type" class="form-control" formControlName="type" />
 
-                <div
-                  *ngIf="isSubmitted && g.type.errors"
-                  class="invalid-feedback"
-                >
+                <div *ngIf="isSubmitted && g.type.errors" class="invalid-feedback">
                   <div *ngIf="g.type.errors.required">
                     กรุณากรอก ประเภท
                   </div>
@@ -340,12 +254,7 @@
             <button type="submit" class="btn btn-sm btn-primary">
               <i class="fa fa-save"></i> บันทึก
             </button>
-            <button
-              (click)="modelRef.hide()"
-              type="button"
-              class="btn btn-sm btn-secondary"
-              data-dismiss="modal"
-            >
+            <button (click)="modelRef.hide()" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
               <i class="fa fa-ban"></i> ปิด
             </button>
           </div>
@@ -357,25 +266,13 @@
     <!-- /.modal-dialog -->
   </ng-template>
 
-  <div
-    bsModal
-    #confirmModal="bs-modal"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="myModalLabel"
-    aria-hidden="true"
-  >
+  <div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-danger" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
-          <button
-            type="button"
-            class="close"
-            (click)="confirmModal.hide()"
-            aria-label="Close"
-          >
+          <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -383,11 +280,7 @@
           <p>คุณต้องการลบประเภท {{ tmpName }} ?</p>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="confirmModal.hide()"
-          >
+          <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">
             ยกเลิก
           </button>
           <button type="button" class="btn btn-danger" (click)="onDelete()">
