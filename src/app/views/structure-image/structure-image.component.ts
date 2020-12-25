@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild,TemplateRef } from "@angular/core";
 import { FeedDataService } from "../../services/feed-data.service";
-import { ModalDirective } from "ngx-bootstrap/modal";
+import { ModalDirective,BsModalRef,BsModalService } from "ngx-bootstrap/modal";
 import { AddDataService } from "../../services/add-data.service";
 
 import {
@@ -21,7 +21,9 @@ export class StructureImageComponent implements OnInit {
   // @ViewChild('topicModal') public topicModal: ModalDirective;
   @ViewChild("editModal") public editModal: ModalDirective;
   @ViewChild("viewImageModal") public viewImageModal: ModalDirective;
-
+  @ViewChild("confirmModal") public confirmModal: ModalDirective;
+  
+  modelRef: BsModalRef;
 
 
   addDataForm: FormGroup;
@@ -32,17 +34,26 @@ export class StructureImageComponent implements OnInit {
   imageInfo:any;
   isSubmitted:any;
   status: Object;
+  files: any = [];
+  displayData: any = [];
   state: any;
+  del: any;
   loading = false;
   structureImg: any[]=[];
+  editForm: FormGroup;
   constructor(
     private apiGetData: FeedDataService,
     private fb: FormBuilder,
     private apiImageData: AddDataService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
     this.getLocalStorage();
+    this.addDataForm = this.fb.group({
+      files: new FormControl("", [Validators.required]),
+      sector_id: new FormControl(this.InfoId),
+    });
   }
 
   getLocalStorage() {
@@ -88,23 +99,24 @@ export class StructureImageComponent implements OnInit {
     });
   }
 
-  addForm() {
-    // alert("test")
-    this.addDataForm = this.fb.group({
-      topic: new FormControl("", [Validators.required]),
-      detail: new FormControl("", [Validators.required]),
-      // fileName: new FormControl (''),
-      sector_id: new FormControl(this.InfoId),
-    });
+  // addForm() {
+  //   alert("test")
+  //   this.addDataForm = this.fb.group({
+  //     topic: new FormControl("", [Validators.required]),
+  //     detail: new FormControl("", [Validators.required]),
+  //     // fileName: new FormControl (''),
+  //     sector_id: new FormControl(this.InfoId),
+  //   });
 
     // console.log('value');
-  }
+  // }
   addData(value) {
-    alert(JSON.stringify(value));
-    this.addDataForm.reset();
+    // alert(JSON.stringify(value));
+    this.loading = false;
     //<!-- grape edit 20201208 -->
-    this.apiImageData.addNews(value,null).subscribe((response) => {
+    this.apiImageData.addStructureimg(value,this.addDataForm.value.files).subscribe((response) => {
       console.log('response',response);
+      
       // console.log(value);
 
       // return response;
@@ -119,6 +131,8 @@ export class StructureImageComponent implements OnInit {
       // }
       // alert(JSON.stringify(this.user.message));
     });
+    this.modelRef.hide()
+    this.getLocalStorage();
     // this.onRoute();
   }
 
@@ -265,7 +279,32 @@ export class StructureImageComponent implements OnInit {
 //         return value + (tail || ' …');
 //     };
 // });
+onDelete() {
+  alert("55555")
+  this.loading = false
+  this.confirmModal.hide();
+  this.apiImageData.removeStructureImage(this.del).subscribe((response) => {
+    this.getLocalStorage()
+  })
+}
 
+onSelectFile(event) {
+  // this.files = event.target.files;
+  const file = (event.target as HTMLInputElement).files;
+  this.addDataForm.patchValue({
+    files: file
+  });
+  this.addDataForm.get('files').updateValueAndValidity()
+}
 
+openModal(template: TemplateRef<any>,files) {
+  this.files = files;
+  this.modelRef = this.modalService.show(template);
+}
+Deletemodal(id){
+  console.log("id",id)
+  this.confirmModal.show();
+  this.del = id;
+}
 
 }

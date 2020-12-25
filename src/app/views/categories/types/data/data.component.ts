@@ -55,7 +55,7 @@ export class DataComponent implements OnInit {
   modelRefDel: BsModalRef;
 
 
-
+  del:any;
   status: any;
   state: any;
   files = [];
@@ -258,7 +258,6 @@ export class DataComponent implements OnInit {
     return this.addDataForm.controls;
   }
 
-
   upload() {
     alert('in upload')
     const formData = new FormData();
@@ -329,7 +328,6 @@ export class DataComponent implements OnInit {
 
     }, 1000);
 
-
   }
 
   EditFormModal(createmodal: TemplateRef<any>, value) {
@@ -375,10 +373,12 @@ export class DataComponent implements OnInit {
     window.open(`http://127.0.0.1/TOTFinancial/public/uploadfiles/Files/${value}`, "_blank");
   }
 
-  confirm(data_id, data_topic) {
+  confirm(data_id, data_topic,file_id) {
+    console.log("qwe",data_id,data_topic,file_id)
     this.confirmModal.show();
     this.tmp = data_id;
     this.tmpName = data_topic;
+    this.del = file_id;
   }
 
   onDelete() {
@@ -392,11 +392,13 @@ export class DataComponent implements OnInit {
   }
 
 
-  onDeleteFiles() {
-    this.apiEditData.removeFiles(this.tmpVal_file_id).subscribe((result) => { });
-    // this.confirmModal.hide();
-    this.modelRefDel.hide();
-    setTimeout(() => {
+
+    onDeleteFiles(){
+      this.apiEditData.removeFiles(this.del).subscribe((result)=>{});
+      // this.confirmModal.hide();
+      this.modelRefDel.hide();
+      setTimeout(() => {
+
 
       this.apiDataInfo.getFiles(this.tmpVal.id).subscribe((response) => {
         this.fileOfTop = response;
@@ -412,6 +414,13 @@ export class DataComponent implements OnInit {
     console.log('tmpVal_file_id=>', this.tmpVal_file_id);
     this.tmpVal_name = value.file_name;
   }
+
+    Deletemodal(id){
+      alert(id)
+      console.log("idddddddd",id)
+      this.confirmModal.show();
+      this.del = id;
+    }
 
 
 }

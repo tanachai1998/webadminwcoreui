@@ -11,7 +11,7 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-primary"
-                  (click)="topicModal.show()"
+                  (click)="openModal(modalAddNews)"
                 >
                   เพิ่มข่าว
                 </button>
@@ -255,10 +255,7 @@
                   <div class="col-md-9">
                     <input
                       type="file"
-                      id="file-multiple-input"
-                      name="file-multiple-input"
                       (change)="onSelectFile($event)"
-                      multiple
                     />
                   </div>
                 </div>
@@ -655,3 +652,43 @@
   </form>
   <!-- /.modal-dialog -->
 </ng-template>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalAddNews class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="addDataForm" (ngSubmit)="onSubmit()">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มข่าว</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modelRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">หัวข้อข่าว </label>
+          <input type="text" formControlName="topic" class="form-control" placeholder="กรุณากรอกหัวข้อข่าว"><br>
+          <div class="form-group">
+            <textarea
+              id="textarea-input"
+              name="textarea-input"
+              rows="9"
+              class="form-control"
+              placeholder="กรุณากรอกรายระเอียดข่าว"
+              formControlName="detail"
+            >
+            </textarea>
+          </div>
+          <label for="test" class="form-label">รูป </label><br>
+          <input type="file" (change)="onSelectFile($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button onClick="window.location.reload();"type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modelRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

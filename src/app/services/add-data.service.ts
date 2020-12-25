@@ -146,6 +146,17 @@ export class AddDataService {
     );
   }
 
+  addStructureimg(value,files: File){
+    alert("222222")
+    const formData = new FormData();
+    formData.append('sector_id',value.sector_id);
+    formData.append("imageFile", files[0]);
+
+    console.log("addStructureimg",formData)
+
+    return this.http.post("http://localhost/TOTFinancial/public/api/addStructureimg",formData);
+  }
+
   editYear(value){
       const formData = {
         id : value.id,
@@ -225,6 +236,11 @@ editFile(value){
 
   removeNews(news_id){
     return this.http.get<any>('http://localhost/TOTFinancial/public/api/removeNews/'+ news_id);
+  }
+
+  removeStructureImage(id){
+    alert(id)
+    return this.http.get<any>('http://localhost/TOTFinancial/public/api/removeStructureImage/'+ id);
   }
 
 }
