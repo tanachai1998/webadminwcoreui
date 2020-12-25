@@ -28,8 +28,8 @@ export class GetData {
       console.log("Info = ", this.Info);
     });
   }
-  getRegulationType() {
-    this.apiGetData.getRegulationType().subscribe((response) => {
+  getRegulationType(category_id,sector_id) {
+    this.apiGetData.getRegulationType(category_id,sector_id).subscribe((response) => {
       this.regulationType = response;
       // alert(response);
       console.log("response", response);
