@@ -117,8 +117,6 @@ export class AddDataService {
     formData.append('detail',value.detail);
     formData.append("image", files[0]);
 
-    console.log("55555555",formData)
-
     return this.http.post( "http://localhost/TOTFinancial/public/api/addNews",formData);
   }
 

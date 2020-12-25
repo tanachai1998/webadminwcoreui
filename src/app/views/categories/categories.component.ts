@@ -109,7 +109,7 @@ export class CategoriesComponent implements OnInit {
          this.InfoId = 6
          this.getCategory(this.InfoId)
          this.resultcategory = result
-         this.loading = true
+         this.loading = false
        })
      }
      else if (this.admin.sector_id == 5) {
@@ -118,7 +118,7 @@ export class CategoriesComponent implements OnInit {
           this.InfoId = 5
           this.getCategory(this.InfoId);
           this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
     }
     else if (this.admin.sector_id == 4) {
@@ -127,7 +127,7 @@ export class CategoriesComponent implements OnInit {
           this.InfoId = 4
           this.getCategory(this.InfoId);
           this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
     }
     else if (this.admin.sector_id == 3) {
@@ -136,7 +136,7 @@ export class CategoriesComponent implements OnInit {
           this.InfoId = 3
           this.getCategory(this.InfoId);
           this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
     }
     else if (this.admin.sector_id == 2) {
@@ -145,7 +145,7 @@ export class CategoriesComponent implements OnInit {
           this.InfoId = 2
           this.getCategory(this.InfoId);
           this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
     }
     else {
@@ -154,11 +154,11 @@ export class CategoriesComponent implements OnInit {
           this.InfoId = 1
           this.getCategory(this.InfoId);
           this.resultcategory = result
-          this.loading = true
+          this.loading = false
         })
     }
      
-     console.log('asdf',this.admin);
+     console.log('Catagories',this.admin);
     })
  }
 
