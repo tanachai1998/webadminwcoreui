@@ -48,14 +48,14 @@ export class DataComponent implements OnInit {
   year_list: any;
   tmpName: any;
   loading = false;
-
+  file: any;
   addDataForm: FormGroup;
   editForm: FormGroup;
   modelRefEdit: BsModalRef;
   modelRefDel: BsModalRef;
 
 
-  del:any;
+  del: any;
   status: any;
   state: any;
   files = [];
@@ -95,122 +95,14 @@ export class DataComponent implements OnInit {
     };
   }
   getLocalStorage() {
-
-    if (this.InfoId == 6) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 6;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
+      this.route.queryParams.subscribe((params) => {
+        this.regulationInfo = params["regualtionType"];});
+      this.file = this.regulationInfo
+      console.log("type regulationInfo id =>", this.regulationInfo);
+      this.getFileInfo(this.regulationInfo);
+      this.getYearList(this.file);
     }
-    else if (this.InfoId == 5) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 5;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 4) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 4;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 3) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 3;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else if (this.InfoId == 2) {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 2;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
-    }
-    else {
-      this.apiGetRegulation.getCategory(this.InfoId)
-        .subscribe(result => {
-          //console.log("role5" , result); 
-          this.InfoId = 1;
-          console.log("categoryID =>", this.category_id);
-          this.route.queryParams.subscribe((params) => {
-            this.category_id = params["categoryID"];
-          });
-          this.sector_Info = localStorage.getItem("sectorId");
-
-          this.route.queryParams.subscribe((params) => {
-            this.regulationInfo = params["regualtionType"];
-          });
-          console.log("type regulationInfo id =>", this.regulationInfo);
-          this.getFileInfo(this.regulationInfo);
-          this.getYearList(this.InfoId);
-        })
-    }
-  }
+  
 
   getFileInfo(regulation_id) {
     console.log("sector_id =>", this.sector_Info);
@@ -232,7 +124,7 @@ export class DataComponent implements OnInit {
     this.addDataForm = this.fb.group({
       topic: new FormControl("", [Validators.required]),
       subTopic: new FormControl("", [Validators.required]),
-      regulation_id: new FormControl(this.InfoId),
+      regulation_id: new FormControl(this.file),
     });
 
   }
@@ -275,7 +167,7 @@ export class DataComponent implements OnInit {
     });
     setTimeout(() => {
       this.dataModal.hide();
-      this.getFileInfo(this.InfoId);
+      this.getFileInfo(this.file);
 
       setTimeout(() => {
         this.addDataForm.reset();
@@ -317,7 +209,7 @@ export class DataComponent implements OnInit {
     setTimeout(() => {
       this.modelRefEdit.hide();
 
-      this.getFileInfo(this.InfoId);
+      this.getFileInfo(this.file);
       setTimeout(() => {
         this.editForm.reset();
 
@@ -373,8 +265,8 @@ export class DataComponent implements OnInit {
     window.open(`http://127.0.0.1/TOTFinancial/public/uploadfiles/Files/${value}`, "_blank");
   }
 
-  confirm(data_id, data_topic,file_id) {
-    console.log("qwe",data_id,data_topic,file_id)
+  confirm(data_id, data_topic, file_id) {
+    console.log("qwe", data_id, data_topic, file_id)
     this.confirmModal.show();
     this.tmp = data_id;
     this.tmpName = data_topic;
@@ -386,18 +278,18 @@ export class DataComponent implements OnInit {
     this.confirmModal.hide();
 
     setTimeout(() => {
-      this.getFileInfo(this.InfoId);
+      this.getFileInfo(this.file);
 
     }, 1000);
   }
 
 
 
-    onDeleteFiles(){
-      this.apiEditData.removeFiles(this.del).subscribe((result)=>{});
-      // this.confirmModal.hide();
-      this.modelRefDel.hide();
-      setTimeout(() => {
+  onDeleteFiles() {
+    this.apiEditData.removeFiles(this.del).subscribe((result) => { });
+    // this.confirmModal.hide();
+    this.modelRefDel.hide();
+    setTimeout(() => {
 
 
       this.apiDataInfo.getFiles(this.tmpVal.id).subscribe((response) => {
@@ -415,12 +307,12 @@ export class DataComponent implements OnInit {
     this.tmpVal_name = value.file_name;
   }
 
-    Deletemodal(id){
-      alert(id)
-      console.log("idddddddd",id)
-      this.confirmModal.show();
-      this.del = id;
-    }
+  Deletemodal(id) {
+    alert(id)
+    console.log("idddddddd", id)
+    this.confirmModal.show();
+    this.del = id;
+  }
 
 
 }
