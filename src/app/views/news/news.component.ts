@@ -83,7 +83,7 @@ export class NewsComponent implements OnInit {
     this.validate.getbyemail(data).subscribe(result =>{
       this.admin = result
       if(this.admin.sector_id == 6){
-        this.apiGetData.getCategory(this.InfoId)
+        this.apiGetData.getNews(this.InfoId)
         .subscribe(result=>{
           this.InfoId = 6
           this.getNews(this.InfoId)
@@ -92,7 +92,7 @@ export class NewsComponent implements OnInit {
         })
       }
       else if (this.admin.sector_id == 5) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 5
            this.getNews(this.InfoId);
@@ -101,7 +101,7 @@ export class NewsComponent implements OnInit {
          })
      }
      else if (this.admin.sector_id == 4) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 4
            this.getNews(this.InfoId);
@@ -110,7 +110,7 @@ export class NewsComponent implements OnInit {
          })
      }
      else if (this.admin.sector_id == 3) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 3
            this.getNews(this.InfoId);
@@ -119,7 +119,7 @@ export class NewsComponent implements OnInit {
          })
      }
      else if (this.admin.sector_id == 2) {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 2
            this.getNews(this.InfoId);
@@ -128,7 +128,7 @@ export class NewsComponent implements OnInit {
          })
      }
      else {
-       this.apiGetData.getCategory(this.InfoId)
+       this.apiGetData.getNews(this.InfoId)
          .subscribe(result => {
            this.InfoId = 1
            this.getNews(this.InfoId);
