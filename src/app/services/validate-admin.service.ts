@@ -35,13 +35,4 @@ export class ValidateAdminService {
       formData
     );
   }
-  getsector(dataa){
-    const from ={
-      sector: dataa
-    };
-    // return this.http.post<any>(,);
-  }
-  // validateUser() {
-  //   return this.http.get('http://localhost/TOTFinancial/public/api/validUser');
-  // }
 }
