@@ -478,10 +478,10 @@ export class TypesComponent implements OnInit {
   }
 
 
-  toDataInfo(category_id) {
-    console.log("category id=>", category_id);
+  toDataInfo(regualtion_id) {
+    console.log("regualtionType =>", regualtion_id);
     this.router.navigate(["categories/types/data"], {
-      queryParams: { categoryID: category_id },
+      queryParams: { regualtionType: regualtion_id },
     });
   }
 
