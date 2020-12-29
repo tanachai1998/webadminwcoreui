@@ -95,12 +95,12 @@ export class DataComponent implements OnInit {
     };
   }
   getLocalStorage() {
-      this.route.queryParams.subscribe((params) => {
-        this.regulationInfo = params["regualtionType"];});
-      this.file = this.regulationInfo
-      console.log("type regulationInfo id =>", this.regulationInfo);
-      this.getFileInfo(this.regulationInfo);
-      this.getYearList(this.file);
+          this.route.queryParams.subscribe((params) => {
+            this.regulationInfo = params["regualtionType"];});
+            this.file = this.regulationInfo
+          console.log("type regulationInfo id =>", this.regulationInfo);
+          this.getFileInfo(this.regulationInfo);
+          this.getYearList(this.file);
     }
   
 
